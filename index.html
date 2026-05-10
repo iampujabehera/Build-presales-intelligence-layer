@@ -1,0 +1,2254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Presales Intelligence Hub · Zycus</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        colors: {
+          ink: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a' }
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html, body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+  body { -webkit-font-smoothing: antialiased; }
+  .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  .fade-in { animation: fadeIn 0.25s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .slide-up { animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .lift { transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+  .lift:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.04), 0 10px 30px rgba(15, 23, 42, 0.08); }
+  .ring-card { box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.04); }
+  .doc-shadow { box-shadow: 0 0 0 1px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.06), 0 24px 60px rgba(15,23,42,0.05); }
+  .indeterminate { animation: indet 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  @keyframes indet { 0% { transform: translateX(-100%); width: 50%; } 50% { width: 60%; } 100% { transform: translateX(220%); width: 50%; } }
+  .nav-active { background: rgba(99, 102, 241, 0.12) !important; color: white !important; }
+  .nav-active i { color: #a5b4fc; }
+  .dot-grid { background-image: radial-gradient(circle, rgba(148, 163, 184, 0.25) 1px, transparent 1px); background-size: 20px 20px; }
+  .stripe-divider { background: linear-gradient(90deg, transparent, #e2e8f0, transparent); height: 1px; }
+  .glow-indigo { box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12); }
+  /* Document preview prose */
+  .doc-prose { color: #334155; }
+  .doc-prose h1 { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem; line-height: 1.2; }
+  .doc-prose h2 { font-size: 1.125rem; font-weight: 700; color: #0f172a; margin-top: 1.75rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid #6366f1; display: inline-block; }
+  .doc-prose h3 { font-size: 0.95rem; font-weight: 600; color: #1e293b; margin-top: 1rem; margin-bottom: 0.25rem; }
+  .doc-prose p { color: #334155; line-height: 1.65; margin-bottom: 0.75rem; font-size: 0.92rem; }
+  .doc-prose ul { list-style: disc; padding-left: 1.25rem; color: #334155; margin-bottom: 0.75rem; }
+  .doc-prose ul li { margin-bottom: 0.35rem; line-height: 1.55; font-size: 0.92rem; }
+  .doc-prose ol { list-style: decimal; padding-left: 1.25rem; color: #334155; margin-bottom: 0.75rem; }
+  .doc-prose ol li { margin-bottom: 0.35rem; line-height: 1.55; font-size: 0.92rem; }
+  .doc-prose table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1rem 0; font-size: 0.85rem; }
+  .doc-prose th { background: #0f172a; color: white; text-align: left; padding: 0.55rem 0.75rem; font-weight: 600; border: 1px solid #0f172a; }
+  .doc-prose td { padding: 0.55rem 0.75rem; border: 1px solid #e2e8f0; color: #334155; vertical-align: top; }
+  .doc-prose tr:nth-child(even) td { background: #f8fafc; }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: white !important; }
+    .doc-shadow { box-shadow: none !important; }
+    .print-page { box-shadow: none !important; padding: 0 !important; }
+  }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+<div class="flex min-h-screen">
+
+  <!-- Sidebar -->
+  <aside class="hidden lg:flex w-64 flex-col bg-slate-900 text-slate-200 fixed inset-y-0 z-30">
+    <div class="px-5 py-5 flex items-center gap-3 border-b border-slate-800">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-violet-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm shadow-lg">PI</div>
+      <div>
+        <div class="text-sm font-semibold text-white leading-none">Presales Hub</div>
+        <div class="text-[11px] text-slate-400 mt-1">Zycus Intelligence</div>
+      </div>
+    </div>
+    <nav class="flex-1 px-3 py-5 space-y-0.5 text-sm">
+      <button onclick="navigate('docagent')" data-nav="docagent" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition">
+        <i data-lucide="bot" class="w-4 h-4"></i><span>Documentation Agent</span>
+      </button>
+      <button onclick="navigate('opportunity')" data-nav="opportunity" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition">
+        <i data-lucide="trending-up" class="w-4 h-4"></i><span>Opportunity Tracker</span>
+        <span class="ml-auto text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded-md">18</span>
+      </button>
+      <div class="px-3 py-3 mt-3 mb-1 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Knowledge Sources</div>
+      <div class="px-3 py-1.5 flex items-center gap-3 text-[12px] text-slate-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Avoma <span class="ml-auto text-slate-500">connected</span>
+      </div>
+      <div class="px-3 py-1.5 flex items-center gap-3 text-[12px] text-slate-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Salesforce <span class="ml-auto text-slate-500">connected</span>
+      </div>
+      <div class="px-3 py-1.5 flex items-center gap-3 text-[12px] text-slate-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Zycus KB 360 <span class="ml-auto text-slate-500">connected</span>
+      </div>
+      <div class="px-3 py-1.5 flex items-center gap-3 text-[12px] text-slate-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> RFP Repository <span class="ml-auto text-slate-500">connected</span>
+      </div>
+      <div class="px-3 py-1.5 flex items-center gap-3 text-[12px] text-slate-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Customer Stories <span class="ml-auto text-slate-500">connected</span>
+      </div>
+    </nav>
+    <div class="px-3 py-3 border-t border-slate-800">
+      <div class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-slate-800/70 cursor-pointer">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-rose-500 flex items-center justify-center text-white font-semibold text-sm">AM</div>
+        <div class="flex-1 min-w-0">
+          <div class="text-sm text-white font-medium truncate">Anuradha Mondal</div>
+          <div class="text-[11px] text-slate-400 truncate">Solutions Consultant</div>
+        </div>
+        <i data-lucide="settings" class="w-4 h-4 text-slate-400"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main area -->
+  <div class="flex-1 lg:ml-64">
+    <!-- Topbar -->
+    <header class="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-slate-200 px-6 py-3 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 flex-1 max-w-xl">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input type="text" id="globalSearch" placeholder="Search accounts, calls, or documents…" class="w-full bg-slate-100 border border-transparent focus:bg-white focus:border-indigo-200 focus:ring-2 focus:ring-indigo-100 outline-none rounded-lg pl-9 pr-3 py-2 text-sm text-slate-700 placeholder:text-slate-400" />
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openIngestModal()" class="hidden sm:flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Generate from new call
+        </button>
+        <button class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 relative">
+          <i data-lucide="bell" class="w-4 h-4"></i>
+          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full"></span>
+        </button>
+        <button class="p-2 rounded-lg text-slate-500 hover:bg-slate-100">
+          <i data-lucide="help-circle" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </header>
+
+    <main id="view-root" class="p-6 lg:p-8"></main>
+  </div>
+</div>
+
+<div id="modal-root"></div>
+
+<script>
+/* ==================== MOCK DATA ==================== */
+
+const ACCOUNTS = [
+  {
+    id: 'pfizer', name: 'Pfizer Inc.', logo: 'PF', color: 'from-blue-600 to-indigo-700',
+    industry: 'Pharmaceuticals', region: 'North America', dealSize: 4200000, stage: 'Qualified',
+    owner: 'David Park', stakeholder: 'Mike Chen, CPO', lastCall: '2026-05-08',
+    callsCount: 3, healthScore: 78,
+    tags: ['Strategic', 'GxP', 'Multi-ERP']
+  },
+  {
+    id: 'tata-steel', name: 'Tata Steel', logo: 'TS', color: 'from-rose-600 to-orange-500',
+    industry: 'Manufacturing', region: 'APAC', dealSize: 2800000, stage: 'Formal Evaluation',
+    owner: 'Priya Nair', stakeholder: 'Anil Sharma, VP Procurement', lastCall: '2026-05-06',
+    callsCount: 5, healthScore: 84,
+    tags: ['Direct Materials', 'India']
+  },
+  {
+    id: 'stanchart', name: 'Standard Chartered', logo: 'SC', color: 'from-emerald-600 to-teal-700',
+    industry: 'BFSI', region: 'Europe', dealSize: 5600000, stage: 'Contract in Progress',
+    owner: 'David Park', stakeholder: 'Helena Schmidt, COO Procurement', lastCall: '2026-05-07',
+    callsCount: 8, healthScore: 91,
+    tags: ['Hot', 'Q2 Close', 'Compliance-heavy']
+  },
+  {
+    id: 'unilever', name: 'Unilever', logo: 'UL', color: 'from-cyan-600 to-blue-600',
+    industry: 'CPG', region: 'Global', dealSize: 3400000, stage: 'Shortlisted',
+    owner: 'Priya Nair', stakeholder: 'Tom Becker, Global CPO', lastCall: '2026-05-04',
+    callsCount: 4, healthScore: 73,
+    tags: ['Sustainability', 'Global rollout']
+  },
+  {
+    id: 'maersk', name: 'A.P. Moller-Maersk', logo: 'MK', color: 'from-sky-600 to-indigo-600',
+    industry: 'Logistics', region: 'Europe', dealSize: 2100000, stage: 'Formal Evaluation',
+    owner: 'Sara Ghosh', stakeholder: 'Lars Pedersen, Head of Procure-to-Pay', lastCall: '2026-05-02',
+    callsCount: 2, healthScore: 65,
+    tags: ['Low-engagement']
+  },
+  {
+    id: 'reliance', name: 'Reliance Industries', logo: 'RI', color: 'from-violet-600 to-fuchsia-600',
+    industry: 'Conglomerate', region: 'APAC', dealSize: 7200000, stage: 'Initial Interest',
+    owner: 'Priya Nair', stakeholder: 'Suresh Iyer, CDO', lastCall: '2026-04-29',
+    callsCount: 1, healthScore: 58,
+    tags: ['Top deal', 'Multi-LOB']
+  },
+  {
+    id: 'exxon', name: 'ExxonMobil', logo: 'EX', color: 'from-rose-700 to-red-600',
+    industry: 'Energy', region: 'North America', dealSize: 4800000, stage: 'Vendor Selected',
+    owner: 'David Park', stakeholder: 'Karen Wu, Director Indirect', lastCall: '2026-05-01',
+    callsCount: 4, healthScore: 80,
+    tags: ['Enterprise', 'Tail spend']
+  },
+  {
+    id: 'nestle', name: 'Nestlé', logo: 'NS', color: 'from-amber-600 to-orange-600',
+    industry: 'F&B', region: 'Europe', dealSize: 3100000, stage: 'Shortlisted',
+    owner: 'Sara Ghosh', stakeholder: 'François Leclerc, VP Group Procurement', lastCall: '2026-05-05',
+    callsCount: 6, healthScore: 88,
+    tags: ['POC live', 'Sustainability']
+  },
+  {
+    id: 'walmart', name: 'Walmart', logo: 'WM', color: 'from-blue-700 to-sky-600',
+    industry: 'Retail', region: 'North America', dealSize: 5400000, stage: 'Contract Signed',
+    owner: 'David Park', stakeholder: 'Linda Greene, SVP Sourcing', lastCall: '2026-05-03',
+    callsCount: 7, healthScore: 86,
+    tags: ['Q2 Close']
+  },
+  {
+    id: 'lufthansa', name: 'Lufthansa Group', logo: 'LH', color: 'from-yellow-600 to-amber-700',
+    industry: 'Aviation', region: 'Europe', dealSize: 2600000, stage: 'Qualified',
+    owner: 'Sara Ghosh', stakeholder: 'Klaus Müller, Head of Procurement', lastCall: '2026-04-28',
+    callsCount: 2, healthScore: 70,
+    tags: ['MRO']
+  }
+];
+
+/* Detailed call + document data — Pfizer is fully fleshed out, others are summarised */
+
+const CALL_DATA = {
+  pfizer: [
+    {
+      id: 'pfz-c3', date: '2026-05-08', title: 'S2P Capability Deep-dive + Architecture Review', duration: 60,
+      attendees: {
+        client: ['Mike Chen — CPO', 'Sarah Kim — Procurement Director', 'James Walsh — IT Architect', 'Lisa Reyes — VP Finance'],
+        zycus: ['Anuradha Mondal — Solutions Consultant', 'David Park — Account Executive']
+      },
+      hasMOM: true, hasSolutioning: true, hasValue: true,
+      transcriptSnippet: 'Mike Chen: "Our biggest issue is the 12-day PR-to-PO cycle. We have four ERPs, and procurement teams have given up on chasing approvals over email…" Anuradha: "Right — that fragmentation is exactly what Merlin Workflow Orchestration solves. Can I walk you through how Merck collapsed it to 3.2 days?"'
+    },
+    {
+      id: 'pfz-c2', date: '2026-04-22', title: 'Solution Demo — Source-to-Contract Module', duration: 45,
+      attendees: {
+        client: ['Sarah Kim — Procurement Director', 'James Walsh — IT Architect'],
+        zycus: ['Anuradha Mondal — Solutions Consultant', 'David Park — Account Executive']
+      },
+      hasMOM: true, hasSolutioning: true, hasValue: false,
+      transcriptSnippet: 'Sarah Kim: "Walk us through how the eAuction reverse bid works for indirect categories…"'
+    },
+    {
+      id: 'pfz-c1', date: '2026-04-10', title: 'Initial Discovery Call', duration: 30,
+      attendees: {
+        client: ['Mike Chen — CPO'],
+        zycus: ['David Park — Account Executive']
+      },
+      hasMOM: true, hasSolutioning: false, hasValue: false,
+      transcriptSnippet: 'Mike Chen: "We are early — exploring vendors. Tell us why Zycus over Ariba…"'
+    }
+  ],
+  'tata-steel': [
+    { id: 'ts-c5', date: '2026-05-06', title: 'Direct Materials Sourcing Demo', duration: 50, attendees: { client: ['Anil Sharma — VP Procurement', 'Ravi Gupta — IT Lead'], zycus: ['Anuradha Mondal — SC', 'Priya Nair — AE'] }, hasMOM: true, hasSolutioning: true, hasValue: true, transcriptSnippet: 'Anil Sharma: "Our coal contracts have very specific FX-linked indexation. Can your contract module handle commodity-linked clauses…"' },
+    { id: 'ts-c4', date: '2026-04-25', title: 'Architecture & Integration Review', duration: 45, attendees: { client: ['Ravi Gupta — IT Lead'], zycus: ['Anuradha Mondal — SC'] }, hasMOM: true, hasSolutioning: true, hasValue: false, transcriptSnippet: '...' }
+  ],
+  stanchart: [
+    { id: 'sc-c8', date: '2026-05-07', title: 'Commercial Negotiation + SoW Walkthrough', duration: 75, attendees: { client: ['Helena Schmidt — COO Procurement', 'Marcus Pollard — Legal'], zycus: ['Anuradha Mondal — SC', 'David Park — AE'] }, hasMOM: true, hasSolutioning: true, hasValue: true, transcriptSnippet: 'Helena: "We need data residency in EU and Singapore. Are both supported in the same tenant?"' }
+  ],
+  unilever: [
+    { id: 'ul-c4', date: '2026-05-04', title: 'POC Mid-point Review', duration: 60, attendees: { client: ['Tom Becker — Global CPO', 'Aisha Patel — Sustainability Lead'], zycus: ['Anuradha Mondal — SC', 'Priya Nair — AE'] }, hasMOM: true, hasSolutioning: true, hasValue: true, transcriptSnippet: 'Tom: "Show us how supplier ESG scores tie back into sourcing events…"' }
+  ],
+  maersk: [
+    { id: 'mk-c2', date: '2026-05-02', title: 'Procure-to-Pay Demo', duration: 40, attendees: { client: ['Lars Pedersen — Head of P2P'], zycus: ['Sara Ghosh — AE'] }, hasMOM: true, hasSolutioning: false, hasValue: false, transcriptSnippet: '...' }
+  ],
+  reliance: [
+    { id: 'ri-c1', date: '2026-04-29', title: 'Initial Strategic Discussion', duration: 90, attendees: { client: ['Suresh Iyer — CDO', '+ 6 others'], zycus: ['Priya Nair — AE', 'Anuradha Mondal — SC', '+ 1 SE'] }, hasMOM: true, hasSolutioning: true, hasValue: true, transcriptSnippet: 'Suresh: "We have 12 LOBs. We need a single procurement platform but local autonomy…"' }
+  ],
+  exxon: [
+    { id: 'ex-c4', date: '2026-05-01', title: 'Indirect Spend & Tail-spend Workshop', duration: 60, attendees: { client: ['Karen Wu — Director Indirect'], zycus: ['Anuradha Mondal — SC', 'David Park — AE'] }, hasMOM: true, hasSolutioning: true, hasValue: true, transcriptSnippet: 'Karen: "We have $3B in tail spend across 40,000 suppliers…"' }
+  ],
+  nestle: [
+    { id: 'ns-c6', date: '2026-05-05', title: 'POC Acceptance Test Walkthrough', duration: 90, attendees: { client: ['François Leclerc — VP Procurement', 'Marie Dubois — Sustainability'], zycus: ['Sara Ghosh — AE', 'Anuradha Mondal — SC'] }, hasMOM: true, hasSolutioning: true, hasValue: true, transcriptSnippet: 'François: "Carbon emissions per supplier — can the platform track Scope 3 in real time?"' }
+  ],
+  walmart: [
+    { id: 'wm-c7', date: '2026-05-03', title: 'Final Commercials + Implementation Plan', duration: 60, attendees: { client: ['Linda Greene — SVP Sourcing'], zycus: ['David Park — AE', 'Anuradha Mondal — SC'] }, hasMOM: true, hasSolutioning: true, hasValue: true, transcriptSnippet: 'Linda: "We need go-live in 14 weeks. Walk me through the phased rollout…"' }
+  ],
+  lufthansa: [
+    { id: 'lh-c2', date: '2026-04-28', title: 'MRO Procurement Pain-point Discovery', duration: 55, attendees: { client: ['Klaus Müller — Head of Procurement'], zycus: ['Sara Ghosh — AE'] }, hasMOM: true, hasSolutioning: false, hasValue: false, transcriptSnippet: '...' }
+  ]
+};
+
+/* MOM / Solutioning / Value document content for the latest call of each account */
+
+const DOCS = {
+  pfizer: {
+    mom: {
+      callTitle: 'S2P Capability Deep-dive + Architecture Review',
+      date: '2026-05-08',
+      duration: '60 minutes',
+      attendees: {
+        'Pfizer (Client)': ['Mike Chen — CPO', 'Sarah Kim — Procurement Director', 'James Walsh — IT Architect', 'Lisa Reyes — VP Finance'],
+        'Zycus': ['Anuradha Mondal — Solutions Consultant', 'David Park — Account Executive']
+      },
+      keyDiscussion: [
+        'Pfizer\'s current state: 12-day average PR-to-PO cycle, fragmented across four ERPs (SAP S/4HANA, JD Edwards on legacy plants, Oracle EBS in two acquired entities). Manual approval routing via email is the primary bottleneck.',
+        'Three-year procurement transformation roadmap: Year 1 unify Source-to-Contract on Zycus, Year 2 roll out Procure-to-Pay across two regions, Year 3 add advanced analytics and Merlin AI modules.',
+        'Supplier risk management: heavy manual due diligence, no continuous monitoring. GxP-relevant suppliers (~8,500 of 80,000) carry the most compliance exposure.',
+        'Competitive context: Pfizer is evaluating SAP Ariba in parallel. Mike Chen explicitly asked Anuradha for clear differentiators on (a) GenAI capabilities, (b) total cost of ownership, and (c) speed to value.',
+        'Compliance scope confirmed: GxP-relevant suppliers must be in scope for Year 1; FDA 21 CFR Part 11 e-signature support is mandatory.'
+      ],
+      openPoints: [
+        'Integration architecture for SAP S/4HANA + JD Edwards (legacy plants) — Zycus to share certified integration patterns and reference architecture by next session.',
+        'Data migration strategy for 80,000 active supplier records — sizing and timeline impact to be quantified.',
+        'Commercial: Is the GenAI / Merlin module licensing included in core ELA, or priced as an add-on? Lisa Reyes (Finance) requires clarity before next pricing review.',
+        'Implementation partner discussion: Pfizer prefers Deloitte; Zycus to confirm Deloitte CoE bandwidth in NA.'
+      ],
+      nextSteps: [
+        { owner: 'Anuradha Mondal', item: 'Send Merck Pharma case study + ROI calculator (annualized savings model)', due: '2026-05-12' },
+        { owner: 'David Park', item: 'Schedule executive demo with CFO Lisa Reyes + IT Architect James Walsh', due: 'Week of 2026-05-19' },
+        { owner: 'Anuradha Mondal', item: 'Prepare integration architecture deep-dive deck (SAP S/4HANA + JD Edwards patterns)', due: '2026-05-15' },
+        { owner: 'Mike Chen (Pfizer)', item: 'Share current supplier master extract for migration sizing', due: '2026-05-14' },
+        { owner: 'David Park', item: 'Confirm Deloitte NA CoE bandwidth and route options to Pfizer', due: '2026-05-13' }
+      ]
+    },
+    solutioning: {
+      callTitle: 'S2P Capability Deep-dive + Architecture Review',
+      date: '2026-05-08',
+      qa: [
+        {
+          q: 'How does Zycus handle multi-currency for global operations across 60+ legal entities?',
+          a: 'Native support for 100+ currencies with daily ECB FX rates auto-pulled. Configurable rounding rules per legal entity. Multi-book accounting (statutory vs. management) supported.',
+          status: 'answered',
+          source: 'Anuradha — answered live'
+        },
+        {
+          q: 'What is the integration approach for SAP S/4HANA + JD Edwards (running on legacy plants)?',
+          a: 'Certified SAP integration via REST APIs and IDocs for master data sync (vendor master, GL, cost centers, tax codes). For JD Edwards, we use the Zycus Integration Framework with pre-built JD Edwards adapters. Typical implementation 6–8 weeks per ERP via the Zycus SAP CoE; reference architecture available.',
+          status: 'answered',
+          source: 'Anuradha — answered live'
+        },
+        {
+          q: 'Do you have ML-based supplier risk scoring beyond static questionnaires? Continuous monitoring or only point-in-time?',
+          a: 'Yes — Zycus Merlin Supplier Risk continuously monitors 12 risk dimensions (financial, ESG, sanctions, cyber, geopolitical, regulatory, reputational, operational, quality, delivery, fraud, concentration) using 200+ external data sources including Dun & Bradstreet, Refinitiv, OFAC, RDC, and custom news feeds. ML models score every supplier daily; alerts trigger on material score changes. Average 14% reduction in supplier disruption events for Merlin customers (2025 Zycus benchmark).',
+          status: 'kb',
+          source: 'Zycus Knowledge Hub — Merlin Supplier Risk v3.2 Whitepaper (Mar 2026)'
+        },
+        {
+          q: 'What is your SOC 2 / ISO compliance posture, and where is data hosted for regulated US pharma workloads?',
+          a: 'Zycus is SOC 2 Type II certified (annual independent audit by Deloitte), ISO 27001:2022 certified, ISO 27701 (privacy) certified, HIPAA-ready, and GDPR-compliant. For regulated US workloads we offer hosting on AWS GovCloud (US-East-1, US-West-2). Data residency options for Pfizer: US, EU (Frankfurt), Singapore. Pen-test reports available under NDA. FedRAMP Moderate in progress (target Q4 2026).',
+          status: 'rfp',
+          source: 'RFP Repository — Pharma Master RFP, Compliance Section Q3.4 + Q3.7 (response template last updated 2026-04-15)'
+        },
+        {
+          q: 'Can the platform support GxP-validated workflows for pharma supplier qualification?',
+          a: 'Yes — Zycus Supplier Information Management ships with a GxP validation pack including 21 CFR Part 11 e-signature support, full audit trail (who/what/when), and qualification workflow templates aligned to ICH Q10. The pack is currently used by 4 of the top-10 pharma. Validation evidence (IQ/OQ/PQ test scripts) provided as part of the GxP add-on.',
+          status: 'kb',
+          source: 'Zycus Knowledge Hub — Pharma Vertical Solution Brief v2.4'
+        },
+        {
+          q: 'Can you support a phased rollout where Year 1 covers North America only, then expand to EMEA + APAC?',
+          a: 'Yes — multi-tenant architecture supports phased geo rollouts on the same instance, with region-specific tax engines (Vertex / Avalara), language packs, and data residency boundaries. We have 11 references with phased global rollouts; Unilever is the closest analog with similar scale and timeline.',
+          status: 'answered',
+          source: 'Anuradha — answered live'
+        },
+        {
+          q: 'GenAI / Merlin module — is licensing included in the core ELA, or priced separately?',
+          a: 'Currently bundled tiers vary by deal size: Merlin Workflow + Merlin Risk are included in the Enterprise Plus tier; Merlin Sourcing AI and Merlin Contract AI are add-ons. For deals above $3M ACV, Merlin add-ons are typically negotiated into the bundle. David Park to confirm exact commercial position with deal desk.',
+          status: 'pending',
+          source: 'Pending — David Park to confirm with Zycus deal desk by 2026-05-13'
+        }
+      ]
+    },
+    value: {
+      callTitle: 'S2P Capability Deep-dive + Architecture Review',
+      date: '2026-05-08',
+      painPoints: [
+        '12-day PR-to-PO cycle (industry best-in-class is 2–3 days) — directly impacting plant uptime and FDA-related material availability',
+        'Procurement fragmented across 4 ERPs (SAP S/4HANA, JD Edwards, Oracle EBS x2) — no unified spend view, monthly close takes 9 business days',
+        'Manual supplier risk due diligence — only point-in-time, not continuous; GxP exposure flagged in last internal audit',
+        'On-contract spend stuck at 58% (industry benchmark 80%+) — estimated $86M annual leakage on indirect categories',
+        'Quarterly compliance reporting takes 3 weeks of manual work across procurement + finance teams'
+      ],
+      currentProcess: [
+        'PR raised in 4 different ERP systems depending on plant / business unit',
+        'Approval routing via email — average 5.2 hand-offs per PR, no SLA tracking',
+        'Supplier qualification via spreadsheets and email — average 21 days per new supplier (GxP) / 12 days (non-GxP)',
+        'No continuous post-onboarding monitoring; risk re-assessment is annual at best',
+        'Spend analytics via quarterly Excel exports consolidated by a 4-person team'
+      ],
+      benchmarks: {
+        industry: 'Pharmaceuticals — North America',
+        rows: [
+          ['PR-to-PO cycle (median)', '12 days', '2.4 days', '−80%'],
+          ['On-contract spend', '58%', '87%', '+29 pp'],
+          ['Supplier qualification cycle (GxP)', '21 days', '4 days', '−81%'],
+          ['Compliance reporting cycle', '21 days', 'Real-time', '—'],
+          ['Tail-spend leakage', '~9% of indirect', '< 3%', '−6 pp']
+        ]
+      },
+      caseStudies: [
+        {
+          name: 'Merck',
+          industry: 'Pharmaceuticals',
+          region: 'North America',
+          match: 'Direct industry + region match',
+          before: '14-day PR-to-PO, 62% on-contract spend, manual supplier risk across ~45,000 suppliers, $4M+ annual compliance overhead.',
+          after: '3.2-day PR-to-PO (−77%), 91% on-contract (+29pp), automated continuous risk monitoring, $42M annualized savings in Year 2, 4 of 5 GxP audits cleared with zero findings post Zycus.',
+          quote: '"Zycus collapsed our PR-to-PO from two weeks to under four days, and gave our auditors a system of record they actually trust." — VP, Indirect Procurement, Merck',
+          url: 'https://www.zycus.com/customers/success-story/merck'
+        },
+        {
+          name: 'GSK',
+          industry: 'Pharmaceuticals',
+          region: 'Europe',
+          match: 'Direct industry match (regulatory equivalence)',
+          before: 'Fragmented S2P across 6 regions, no unified supplier master, 14% tail-spend leakage.',
+          after: 'Unified S2P on Zycus, $28M Year-1 savings, tail-spend leakage cut to 3.4%, supplier base rationalised by 22%.',
+          quote: '"The unified spend cube was the single biggest unlock — we now make sourcing decisions on data, not anecdotes." — Head of Group Procurement, GSK',
+          url: 'https://www.zycus.com/customers/success-story/gsk'
+        },
+        {
+          name: 'Bayer',
+          industry: 'Pharmaceuticals',
+          region: 'Europe',
+          match: 'Similar regulatory landscape (GxP)',
+          before: '21-day supplier qualification with manual GxP checks, 12 critical compliance findings in 2024 audit.',
+          after: '4-day qualification with built-in GxP workflow, 80% reduction in compliance findings (only 2 in 2025 audit), $11M qualification cost reduction.',
+          quote: '"Our auditors moved from sampling to full-population testing because the audit trail is end-to-end digital." — Head of Compliance Procurement, Bayer',
+          url: 'https://www.zycus.com/customers/success-story/bayer'
+        }
+      ],
+      projectedImpact: {
+        savings: '$38M – $52M',
+        period: 'Annualized, by end of Year 2',
+        payback: '11–14 months',
+        breakdown: [
+          ['On-contract spend uplift (58% → 85%)', '$22M – $28M'],
+          ['Tail-spend leakage reduction', '$8M – $12M'],
+          ['Cycle-time / FTE productivity gains', '$5M – $8M'],
+          ['Compliance overhead reduction', '$3M – $4M']
+        ]
+      }
+    }
+  },
+
+  /* light-weight docs for other accounts */
+
+  'tata-steel': {
+    mom: { callTitle: 'Direct Materials Sourcing Demo', date: '2026-05-06', duration: '50 minutes',
+      attendees: { 'Tata Steel': ['Anil Sharma — VP Procurement', 'Ravi Gupta — IT Lead'], 'Zycus': ['Anuradha Mondal — SC', 'Priya Nair — AE'] },
+      keyDiscussion: ['Walked through Source-to-Contract module focused on direct materials (coal, iron ore).','FX-linked + commodity-indexed contract clauses are a core requirement.','Heavy reliance on long-tail Indian MSME suppliers — onboarding ease is a deal factor.'],
+      openPoints: ['Custom commodity indexation clauses — confirm template support.','Vernacular language support for supplier portal (Hindi, Tamil, Marathi).'],
+      nextSteps: [{ owner: 'Anuradha', item: 'Send commodity-indexed clause library + sample contracts', due: '2026-05-10' }, { owner: 'Priya', item: 'Schedule CFO + CPO joint session', due: '2026-05-15' }]
+    },
+    solutioning: { callTitle: 'Direct Materials Sourcing Demo', date: '2026-05-06',
+      qa: [
+        { q: 'Can your contract module handle FX-linked + commodity-indexed pricing clauses?', a: 'Yes — clause library supports parametric pricing with formula builder; coal/iron-ore index hooks via S&P Platts feed.', status: 'answered', source: 'Anuradha — live' },
+        { q: 'Vernacular language support in supplier portal?', a: 'Hindi, Tamil, Bengali, Marathi, Gujarati supported in supplier portal v2024.3 (latest). Document i18n on roadmap Q3 2026.', status: 'kb', source: 'Zycus KB — Supplier Portal i18n matrix' },
+        { q: 'How do you handle MSME compliance certificates (Udyam, GST)?', a: 'Auto-validation against Udyam + GST APIs (India only); audit-trailed in supplier master.', status: 'rfp', source: 'RFP Repo — India MSME compliance Q&A' }
+      ]
+    },
+    value: { callTitle: 'Direct Materials Sourcing Demo', date: '2026-05-06',
+      painPoints: ['Volatile commodity pricing — 30% margin impact in 2025.','Long-tail supplier base of 24,000+ MSMEs in India.','Manual contract redlining cycle averages 18 days.'],
+      currentProcess: ['Contracts authored in Word, redlined via email.','Commodity indexation tracked in offline spreadsheets.','MSME onboarding via paper-based Udyam verification.'],
+      benchmarks: { industry: 'Manufacturing — APAC', rows: [['Contract cycle time','18 days','5 days','−72%'],['Sourcing event coverage','40%','78%','+38 pp'],['Supplier onboarding','9 days','2 days','−78%']] },
+      caseStudies: [
+        { name: 'JSW Steel', industry: 'Manufacturing', region: 'APAC', match: 'Direct industry + region match', before: 'Manual contract authoring, 18-day cycle, no commodity-indexed clauses.', after: '5-day contract cycle, 100% indexed clauses on coal/iron ore, $14M Year-1 savings.', quote: '"Contract authoring time fell 70%, but the bigger win was the audit-ready clause library." — Head of Sourcing, JSW.', url: 'https://www.zycus.com/customers/success-story/jsw' },
+        { name: 'Mahindra & Mahindra', industry: 'Manufacturing', region: 'APAC', match: 'Similar landscape — large MSME supplier base', before: 'Manual MSME onboarding, vernacular gaps in supplier portal.', after: '78% faster onboarding, 6-language supplier portal, $9M tail-spend cut.', quote: '"Vernacular onboarding was the unlock for our Tier-3 supplier base." — CPO, M&M.', url: 'https://www.zycus.com/customers/success-story/mahindra' }
+      ],
+      projectedImpact: { savings: '$11M – $16M', period: 'Annualized, end of Year 2', payback: '14–18 months', breakdown: [['Commodity hedging via indexed clauses','$5M – $7M'],['Contract cycle time reduction','$2M – $3M'],['Tail-spend leakage','$4M – $6M']] }
+    }
+  },
+
+  stanchart: {
+    mom: { callTitle: 'Commercial Negotiation + SoW Walkthrough', date: '2026-05-07', duration: '75 minutes',
+      attendees: { 'Standard Chartered': ['Helena Schmidt — COO Procurement', 'Marcus Pollard — Legal'], 'Zycus': ['Anuradha Mondal — SC', 'David Park — AE'] },
+      keyDiscussion: ['Walked through final SoW v3.','Data residency requirement: tenant must support EU + Singapore in parallel.','Outsourced ops in 4 countries — supplier onboarding throughput discussed.','Indemnity caps and SLAs final round.'],
+      openPoints: ['Final indemnity cap (currently 1× annual fee, client wants 2×).','SLA penalty structure for sub-99.5% uptime.'],
+      nextSteps: [{ owner: 'Marcus Pollard (StanChart)', item: 'Send marked-up MSA v4 by 2026-05-10', due: '2026-05-10' }, { owner: 'David Park', item: 'Align with deal desk on indemnity ask', due: '2026-05-09' }]
+    },
+    solutioning: { callTitle: 'Commercial Negotiation + SoW Walkthrough', date: '2026-05-07',
+      qa: [
+        { q: 'Data residency in EU and Singapore on the same tenant?', a: 'Yes — region-bound tenant slices supported; metadata vs. transactional data residency configurable independently.', status: 'kb', source: 'Zycus KB — Multi-region tenant architecture' },
+        { q: 'BCBS 239 reporting alignment?', a: 'Risk data aggregation + reporting principles supported through Zycus Spend Analytics + custom data lineage layer.', status: 'rfp', source: 'RFP Repo — BFSI Compliance answers' },
+        { q: 'Indemnity cap — can we go to 2× annual fee?', a: 'Pending — David Park to confirm with deal desk.', status: 'pending', source: 'Pending — deal desk' }
+      ]
+    },
+    value: { callTitle: 'Commercial Negotiation + SoW Walkthrough', date: '2026-05-07',
+      painPoints: ['Procurement compliance overhead with 14 regulators across regions.','Outsourced ops introduce supplier concentration risk.','Manual third-party risk assessment cycle is 28 days.'],
+      currentProcess: ['Manual TPRM in Excel + ServiceNow.','Procurement teams in 4 hubs, no shared spend cube.','Annual supplier audit only.'],
+      benchmarks: { industry: 'BFSI — Europe', rows: [['Third-party risk cycle','28 days','5 days','−82%'],['Spend visibility (real-time)','12%','94%','+82 pp'],['On-contract spend','71%','89%','+18 pp']] },
+      caseStudies: [
+        { name: 'HSBC', industry: 'BFSI', region: 'Europe', match: 'Direct industry + region match', before: '28-day TPRM cycle, 71% on-contract spend, fragmented analytics.', after: '5-day TPRM, 89% on-contract, real-time global spend cube, $34M annualized savings.', quote: '"Continuous third-party monitoring became the foundation of our regulator conversations." — Group Head Procurement, HSBC.', url: 'https://www.zycus.com/customers/success-story/hsbc' },
+        { name: 'Barclays', industry: 'BFSI', region: 'Europe', match: 'Direct industry + region match', before: 'Annual supplier audits, no real-time concentration risk view.', after: 'Continuous risk + concentration dashboard, $19M Year-1 savings.', quote: '"We saw concentration risks we had been blind to for years." — CRO Procurement, Barclays.', url: 'https://www.zycus.com/customers/success-story/barclays' }
+      ],
+      projectedImpact: { savings: '$28M – $38M', period: 'Annualized, end of Year 2', payback: '9–12 months', breakdown: [['On-contract spend uplift','$14M – $19M'],['TPRM efficiency','$6M – $9M'],['Tail-spend leakage','$8M – $10M']] }
+    }
+  },
+
+  unilever: {
+    mom: { callTitle: 'POC Mid-point Review', date: '2026-05-04', duration: '60 minutes',
+      attendees: { 'Unilever': ['Tom Becker — Global CPO', 'Aisha Patel — Sustainability Lead'], 'Zycus': ['Anuradha Mondal — SC', 'Priya Nair — AE'] },
+      keyDiscussion: ['POC scope: 3 categories, 200 suppliers across 4 regions.','ESG / Scope 3 requirement is now a hard gate.','Strong UX feedback — sourcing event creation flow rated 8/10.'],
+      openPoints: ['Scope 3 emissions data ingestion — partner ecosystem (CDP, EcoVadis) integration depth.','POC exit criteria sign-off pending sustainability scorecard.'],
+      nextSteps: [{ owner: 'Anuradha', item: 'Share EcoVadis + CDP integration brief', due: '2026-05-09' }, { owner: 'Aisha (Unilever)', item: 'Confirm Scope 3 data scope', due: '2026-05-12' }]
+    },
+    solutioning: { callTitle: 'POC Mid-point Review', date: '2026-05-04',
+      qa: [
+        { q: 'How does ESG score tie back into sourcing events?', a: 'EcoVadis + CDP scores synced to supplier master; events can include ESG-weighted scoring criteria with configurable weight.', status: 'answered', source: 'Anuradha — live' },
+        { q: 'Scope 3 emissions tracking depth?', a: 'Category-level Scope 3 supported via CDP + spend-based estimation. Activity-based granularity on roadmap Q4 2026.', status: 'kb', source: 'Zycus KB — Sustainability Module v2026.1' },
+        { q: 'CSRD reporting export format?', a: 'XBRL export aligned to ESRS taxonomy supported.', status: 'rfp', source: 'RFP Repo — CSRD compliance answers' }
+      ]
+    },
+    value: { callTitle: 'POC Mid-point Review', date: '2026-05-04',
+      painPoints: ['No real-time view of supplier ESG performance.','Manual Scope 3 estimation lags by 2 quarters.','CSRD compliance requires audit-grade data.'],
+      currentProcess: ['Annual EcoVadis surveys, batch-uploaded.','Sustainability tracked in standalone PowerBI.','Scope 3 calculated quarterly via consultant.'],
+      benchmarks: { industry: 'CPG — Global', rows: [['ESG-weighted sourcing events','12%','82%','+70 pp'],['Scope 3 reporting cycle','Quarterly (lagging)','Real-time','—'],['Sustainable spend share','21%','58%','+37 pp']] },
+      caseStudies: [
+        { name: 'Procter & Gamble', industry: 'CPG', region: 'Global', match: 'Direct industry + global rollout match', before: 'Quarterly Scope 3 reporting, 21% sustainable spend share.', after: 'Real-time Scope 3, 58% sustainable spend, $24M Year-1 savings + CSRD audit-ready.', quote: '"Sustainability became a sourcing lever, not a compliance afterthought." — VP Sustainable Sourcing, P&G.', url: 'https://www.zycus.com/customers/success-story/pg' },
+        { name: 'Reckitt', industry: 'CPG', region: 'Europe', match: 'Similar industry + sustainability mandate', before: 'Manual ESG scoring, batch supplier surveys.', after: 'Continuous ESG scoring, $11M Year-1 savings.', quote: '"We now sources from suppliers who actually move the ESG needle." — CPO, Reckitt.', url: 'https://www.zycus.com/customers/success-story/reckitt' }
+      ],
+      projectedImpact: { savings: '$18M – $26M', period: 'Annualized, end of Year 2', payback: '12–16 months', breakdown: [['ESG-weighted sourcing savings','$8M – $12M'],['Tail-spend reduction','$5M – $8M'],['Compliance overhead','$5M – $6M']] }
+    }
+  }
+};
+
+/* helper to give every account at least skeleton docs */
+function ensureDocs(accountId) {
+  if (DOCS[accountId]) return DOCS[accountId];
+  const acc = ACCOUNTS.find(a => a.id === accountId);
+  const call = (CALL_DATA[accountId] || [])[0] || { title: 'Discovery Call', date: acc.lastCall, attendees: { client: [acc.stakeholder], zycus: ['Anuradha Mondal — SC'] }, duration: 45 };
+  return {
+    mom: { callTitle: call.title, date: call.date, duration: `${call.duration} minutes`,
+      attendees: { [acc.name]: call.attendees.client, 'Zycus': call.attendees.zycus },
+      keyDiscussion: ['Initial discovery on procurement priorities and pain points.','Walked through Zycus capability landscape at a high level.','Discussed industry benchmarks and peer references.'],
+      openPoints: ['Detailed integration architecture review.','Commercial framework alignment.'],
+      nextSteps: [{ owner: 'Anuradha', item: 'Send tailored capability brief + relevant case studies', due: 'Within 5 business days' }, { owner: 'Account team', item: 'Schedule deep-dive demo', due: 'Within 2 weeks' }]
+    },
+    solutioning: { callTitle: call.title, date: call.date,
+      qa: [
+        { q: 'Sample functional question raised on the call.', a: 'Live answer captured from Anuradha.', status: 'answered', source: 'Anuradha — live' },
+        { q: 'Sample technical question that required follow-up.', a: 'AI-suggested answer from Zycus Knowledge Hub.', status: 'kb', source: 'Zycus KB — relevant module brief' }
+      ]
+    },
+    value: { callTitle: call.title, date: call.date,
+      painPoints: ['Pain point captured from call transcript #1.','Pain point captured from call transcript #2.','Pain point captured from call transcript #3.'],
+      currentProcess: ['Current process step #1.','Current process step #2.','Current process step #3.'],
+      benchmarks: { industry: `${acc.industry} — ${acc.region}`, rows: [['PR-to-PO cycle','—','—','—'],['On-contract spend','—','—','—']] },
+      caseStudies: [
+        { name: `Reference customer (${acc.industry})`, industry: acc.industry, region: acc.region, match: 'Direct industry + region match', before: 'Pre-Zycus state.', after: 'Post-Zycus outcomes.', quote: '"Customer testimonial."', url: 'https://www.zycus.com/customers/success-story' }
+      ],
+      projectedImpact: { savings: 'TBD', period: 'Annualized', payback: 'TBD', breakdown: [['On-contract uplift','TBD']] }
+    }
+  };
+}
+
+/* ==================== OPPORTUNITIES (Salesforce mirror) ==================== */
+
+const OPPORTUNITIES = [
+  // Pfizer (Qualified) — 3 modules pitched across calls
+  { id: 'OPP-PFZ-01', sfId: '0068X00000Bz1aAAB', accountId: 'pfizer', module: 'Source-to-Pay Suite', stage: 'Qualified', type: 'New Business', amount: 2800000, servicesAmount: 850000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-08', closeDate: '2026-09-30' },
+  { id: 'OPP-PFZ-02', sfId: '0068X00000Bz2aAAB', accountId: 'pfizer', module: 'Merlin Supplier Risk', stage: 'Qualified', type: 'Cross-sell', amount: 850000, servicesAmount: 180000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-08', closeDate: '2026-10-15' },
+  { id: 'OPP-PFZ-03', sfId: '0068X00000Bz3aAAB', accountId: 'pfizer', module: 'Merlin Sourcing AI', stage: 'Qualified', type: 'Cross-sell', amount: 550000, servicesAmount: 120000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-08', closeDate: '2026-12-15' },
+
+  // Tata Steel (Formal Evaluation) — 2 modules
+  { id: 'OPP-TS-01', sfId: '0068X00000Bz4aAAB', accountId: 'tata-steel', module: 'Source-to-Contract Suite', stage: 'Formal Evaluation', type: 'New Business', amount: 1900000, servicesAmount: 580000, presales: 'Anuradha Mondal', owner: 'Priya Nair', lastConnect: '2026-05-06', closeDate: '2026-08-31' },
+  { id: 'OPP-TS-02', sfId: '0068X00000Bz5aAAB', accountId: 'tata-steel', module: 'iContract Authoring', stage: 'Formal Evaluation', type: 'Cross-sell', amount: 600000, servicesAmount: 180000, presales: 'Anuradha Mondal', owner: 'Priya Nair', lastConnect: '2026-05-06', closeDate: '2026-09-30' },
+
+  // Standard Chartered (Contract in Progress) — 3 modules
+  { id: 'OPP-SC-01', sfId: '0068X00000Bz6aAAB', accountId: 'stanchart', module: 'Source-to-Pay Suite', stage: 'Contract in Progress', type: 'New Business', amount: 3800000, servicesAmount: 1100000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-07', closeDate: '2026-06-30' },
+  { id: 'OPP-SC-02', sfId: '0068X00000Bz7aAAB', accountId: 'stanchart', module: 'Merlin TPRM', stage: 'Contract in Progress', type: 'Cross-sell', amount: 950000, servicesAmount: 220000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-07', closeDate: '2026-06-30' },
+  { id: 'OPP-SC-03', sfId: '0068X00000Bz8aAAB', accountId: 'stanchart', module: 'iSupplier Information Mgmt', stage: 'Contract in Progress', type: 'Cross-sell', amount: 480000, servicesAmount: 140000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-07', closeDate: '2026-07-15' },
+
+  // Unilever (Shortlisted) — 2 modules
+  { id: 'OPP-UL-01', sfId: '0068X00000Bz9aAAB', accountId: 'unilever', module: 'Sustainability Mgmt Module', stage: 'Shortlisted', type: 'Pilot', amount: 280000, servicesAmount: 60000, presales: 'Anuradha Mondal', owner: 'Priya Nair', lastConnect: '2026-05-04', closeDate: '2026-07-31' },
+  { id: 'OPP-UL-02', sfId: '0068X00000BzAaAAB', accountId: 'unilever', module: 'Source-to-Contract Suite', stage: 'Shortlisted', type: 'New Business', amount: 2400000, servicesAmount: 680000, presales: 'Anuradha Mondal', owner: 'Priya Nair', lastConnect: '2026-05-04', closeDate: '2026-09-30' },
+
+  // Maersk (Formal Evaluation)
+  { id: 'OPP-MK-01', sfId: '0068X00000BzBaAAB', accountId: 'maersk', module: 'Procure-to-Pay Suite', stage: 'Formal Evaluation', type: 'New Business', amount: 1700000, servicesAmount: 420000, presales: 'Anuradha Mondal', owner: 'Sara Ghosh', lastConnect: '2026-05-02', closeDate: '2026-10-31' },
+
+  // Reliance (Initial Interest)
+  { id: 'OPP-RI-01', sfId: '0068X00000BzCaAAB', accountId: 'reliance', module: 'Source-to-Pay Suite (Multi-LOB)', stage: 'Initial Interest', type: 'New Business', amount: 5200000, servicesAmount: 2000000, presales: 'Anuradha Mondal', owner: 'Priya Nair', lastConnect: '2026-04-29', closeDate: '2026-12-31' },
+
+  // ExxonMobil (Vendor Selected) — 2 modules
+  { id: 'OPP-EX-01', sfId: '0068X00000BzDaAAB', accountId: 'exxon', module: 'iAnalyze Spend Analytics', stage: 'Vendor Selected', type: 'New Business', amount: 1400000, servicesAmount: 380000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-01', closeDate: '2026-08-15' },
+  { id: 'OPP-EX-02', sfId: '0068X00000BzEaAAB', accountId: 'exxon', module: 'iSource Sourcing', stage: 'Vendor Selected', type: 'Upsell', amount: 1900000, servicesAmount: 520000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-01', closeDate: '2026-09-30' },
+
+  // Nestle (Shortlisted) — 2 modules
+  { id: 'OPP-NS-01', sfId: '0068X00000BzFaAAB', accountId: 'nestle', module: 'Sustainability Mgmt Module', stage: 'Shortlisted', type: 'Pilot', amount: 320000, servicesAmount: 70000, presales: 'Anuradha Mondal', owner: 'Sara Ghosh', lastConnect: '2026-05-05', closeDate: '2026-07-31' },
+  { id: 'OPP-NS-02', sfId: '0068X00000BzGaAAB', accountId: 'nestle', module: 'Source-to-Pay Suite', stage: 'Shortlisted', type: 'Upsell', amount: 2200000, servicesAmount: 520000, presales: 'Anuradha Mondal', owner: 'Sara Ghosh', lastConnect: '2026-05-05', closeDate: '2026-09-30' },
+
+  // Walmart (Contract Signed)
+  { id: 'OPP-WM-01', sfId: '0068X00000BzHaAAB', accountId: 'walmart', module: 'S2P + Merlin Suite', stage: 'Contract Signed', type: 'New Business', amount: 4200000, servicesAmount: 1200000, presales: 'Anuradha Mondal', owner: 'David Park', lastConnect: '2026-05-03', closeDate: '2026-05-15' },
+
+  // Lufthansa (Qualified)
+  { id: 'OPP-LH-01', sfId: '0068X00000BzJaAAB', accountId: 'lufthansa', module: 'Source-to-Contract (MRO)', stage: 'Qualified', type: 'New Business', amount: 1800000, servicesAmount: 460000, presales: 'Anuradha Mondal', owner: 'Sara Ghosh', lastConnect: '2026-04-28', closeDate: '2026-11-30' }
+];
+
+const sfUrl = (sfId) => `https://zycus.lightning.force.com/lightning/r/Opportunity/${sfId}/view`;
+
+/* ==================== ACCOUNT INTELLIGENCE (public-source mirror) ==================== */
+/* In production this would be backed by NewsAPI / LinkedIn / Crunchbase / company press feeds.
+   All entries below are illustrative placeholders styled to match real coverage. */
+
+const ACCOUNT_INTEL = {
+  pfizer: {
+    ticker: 'NYSE: PFE', hq: 'New York, NY · USA', employees: '~88,000', revenue: '$58.5B (FY 2025)', updated: '2026-05-09',
+    stakeholders: [
+      { name: 'David Denton', title: 'EVP & Chief Financial Officer', color: 'from-blue-600 to-indigo-700', focus: 'Approves capex >$10M. At JPM Healthcare 2026 called procurement-tech ROI "table stakes."', source: { label: 'Pfizer Leadership', url: 'https://www.pfizer.com/about/leadership' } },
+      { name: 'Albert Bourla', title: 'Chairman & Chief Executive Officer', color: 'from-emerald-600 to-teal-700', focus: 'Top-down sponsor of the $750M Pfizer Digital initiative announced Mar 2026.', source: { label: 'Pfizer Leadership', url: 'https://www.pfizer.com/about/leadership' } },
+      { name: 'Mike Chen', title: 'Chief Procurement Officer', color: 'from-violet-600 to-fuchsia-600', focus: 'Driving 3-year S2P transformation. Owner of the active Zycus evaluation.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mike-chen-procurement/' } },
+      { name: 'Sarah Kim', title: 'Director, Indirect Procurement', color: 'from-amber-600 to-orange-600', focus: 'Day-to-day eval lead. Joined Pfizer Feb 2026 from Merck (led $4B indirect category strategy).', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sarah-kim-pfizer/' } }
+    ],
+    news: [
+      { date: '2026-04-30', category: 'Funding', headline: 'Pfizer Q1 2026 revenue $14.9B beats estimates; raises full-year guidance', snippet: 'Q1 revenue +8% YoY, beating analyst consensus of $14.4B. Management raised FY EPS guidance to $2.95–$3.15.', source: 'Reuters', url: 'https://www.reuters.com/business/healthcare-pharmaceuticals/pfizer-q1-2026-results/' },
+      { date: '2026-04-28', category: 'AI / Digital', headline: 'Pfizer partners with Anthropic to automate clinical-trial documentation', snippet: 'Multi-year partnership to deploy Claude across regulatory submissions, targeting 30% cycle-time reduction.', source: 'FierceBiotech', url: 'https://www.fiercebiotech.com/biotech/pfizer-anthropic-claude-partnership-2026' },
+      { date: '2026-04-15', category: 'M&A', headline: 'Pfizer to acquire ABC Therapeutics for $4.5B', snippet: 'Deal adds late-stage HER2-targeted oncology therapy. Expected close Q3 2026 pending FTC review.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-04-15/pfizer-abc-therapeutics-acquisition' },
+      { date: '2026-03-22', category: 'AI / Digital', headline: 'Pfizer launches "Pfizer Digital" — $750M multi-year transformation', snippet: '3-year programme across R&D, supply chain and commercial. Procurement modernisation named a Year-1 priority.', source: 'Pfizer Newsroom', url: 'https://www.pfizer.com/news/press-release/pfizer-digital-launch' },
+      { date: '2026-02-10', category: 'Leadership', headline: 'Pfizer names Sarah Kim Director, Indirect Procurement', snippet: 'Kim joins from Merck where she led indirect category strategy for $4B in spend.', source: 'LinkedIn', url: 'https://www.linkedin.com/posts/pfizer_sarah-kim-procurement-director-2026' },
+      { date: '2026-01-18', category: 'Strategic', headline: 'CFO David Denton at JPM Healthcare: "Procurement-tech ROI is now table stakes"', snippet: 'Speaking at JPM, Denton called procurement digitisation a 2026 capital-allocation priority.', source: 'CNBC', url: 'https://www.cnbc.com/2026/01/18/pfizer-cfo-denton-jpm-healthcare-conference' }
+    ]
+  },
+
+  'tata-steel': {
+    ticker: 'NSE: TATASTEEL', hq: 'Mumbai · India', employees: '~78,000', revenue: '₹2.31L Cr (FY 2025)', updated: '2026-05-08',
+    stakeholders: [
+      { name: 'T.V. Narendran', title: 'CEO & Managing Director', color: 'from-rose-600 to-orange-500', focus: 'Sets group-wide digital agenda. Backed AI rollout in Jamshedpur.', source: { label: 'Tata Steel Leadership', url: 'https://www.tatasteel.com/corporate/our-organisation/leadership-team/' } },
+      { name: 'Koushik Chatterjee', title: 'Executive Director & CFO', color: 'from-indigo-600 to-blue-700', focus: 'Capex sign-off for transformation programmes. Quoted on procurement digitisation in FY26 earnings call.', source: { label: 'Tata Steel Leadership', url: 'https://www.tatasteel.com/corporate/our-organisation/leadership-team/' } },
+      { name: 'Anil Sharma', title: 'VP, Group Procurement', color: 'from-violet-600 to-fuchsia-600', focus: 'Leads direct + indirect spend ($12B). Active in Zycus eval; commodity-indexed contracts a hard requirement.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/anil-sharma-tata-steel/' } },
+      { name: 'Priya Mehta', title: 'Head of Digital Procurement', color: 'from-amber-600 to-orange-600', focus: 'Newly created role, Apr 2026. Reports to Anil Sharma. Tasked with vendor selection.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/priya-mehta-tata/' } }
+    ],
+    news: [
+      { date: '2026-04-30', category: 'Leadership', headline: 'Tata Steel names new Chief Digital Officer to lead group-wide transformation', snippet: 'Appointment signals stepped-up investment in digital procurement and supply-chain analytics.', source: 'Reuters', url: 'https://www.reuters.com/business/india/tata-steel-cdo-2026/' },
+      { date: '2026-04-22', category: 'Funding', headline: 'Tata Steel Q4 FY26 EBITDA at ₹11,800 Cr; record performance', snippet: 'Strong commodity cycle and India operations drove the beat. Management guided for sustained capex.', source: 'Business Standard', url: 'https://www.business-standard.com/companies/tata-steel-q4-fy26-results' },
+      { date: '2026-03-20', category: 'Strategic', headline: 'Tata Steel UK announces £2.5B green steel transition', snippet: 'Includes new electric arc furnace at Port Talbot; significant overhaul of supply base.', source: 'Financial Times', url: 'https://www.ft.com/content/tata-steel-uk-green-transition-2026' },
+      { date: '2026-02-08', category: 'AI / Digital', headline: 'Tata Steel rolls out AI-powered production planning at Jamshedpur', snippet: 'Pilot reduced raw-material waste 4% in first quarter. Roll-out planned for Kalinganagar by Q3.', source: 'The Economic Times', url: 'https://economictimes.indiatimes.com/industry/indl-goods/svs/steel/tata-steel-ai-production-planning' },
+      { date: '2026-01-15', category: 'M&A', headline: 'Tata Steel acquires remaining stake in Long Products subsidiary', snippet: 'Consolidation simplifies group structure ahead of demerger considerations.', source: 'Mint', url: 'https://www.livemint.com/companies/news/tata-steel-long-products-stake-2026' }
+    ]
+  },
+
+  stanchart: {
+    ticker: 'LSE: STAN', hq: 'London · United Kingdom', employees: '~83,000', revenue: '$19.7B (FY 2025)', updated: '2026-05-09',
+    stakeholders: [
+      { name: 'Bill Winters', title: 'Group Chief Executive', color: 'from-emerald-600 to-teal-700', focus: 'Sponsoring Africa digital fund. Vocal on AI-led banking ops at Davos 2026.', source: { label: 'StanChart Leadership', url: 'https://www.sc.com/en/about/board-and-management/' } },
+      { name: 'Diego De Giorgi', title: 'Group CFO', color: 'from-blue-600 to-indigo-700', focus: 'Approver for ELA. Pushing supplier-base rationalisation as part of cost programme.', source: { label: 'StanChart Leadership', url: 'https://www.sc.com/en/about/board-and-management/' } },
+      { name: 'Helena Schmidt', title: 'COO Procurement (Group)', color: 'from-violet-600 to-fuchsia-600', focus: 'Lead negotiator on the active Zycus deal. Pressing for 2× indemnity cap.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/helena-schmidt-stanchart/' } },
+      { name: 'Marcus Pollard', title: 'Head of Legal Procurement', color: 'from-amber-600 to-orange-600', focus: 'MSA + DPA owner. Hard requirement on EU + Singapore data residency.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/marcus-pollard-stanchart/' } }
+    ],
+    news: [
+      { date: '2026-05-03', category: 'Funding', headline: 'Standard Chartered Q1 income up 12% to $5.1B; ROTE 14%', snippet: 'Strong Asia performance and wealth-management flows. Upgraded full-year RoTE guidance.', source: 'Financial Times', url: 'https://www.ft.com/content/standard-chartered-q1-2026' },
+      { date: '2026-04-22', category: 'Strategic', headline: 'SC Ventures unveils $250M Africa digital fund', snippet: 'Targets fintech + supply-chain platforms. Suggests appetite for procurement-tech investment.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-04-22/sc-ventures-africa-fund' },
+      { date: '2026-04-18', category: 'AI / Digital', headline: 'Standard Chartered launches AI banking platform with Microsoft', snippet: 'Multi-year deal covers customer service, KYC and treasury workflows.', source: 'Reuters', url: 'https://www.reuters.com/business/finance/standard-chartered-microsoft-ai-2026/' },
+      { date: '2026-03-15', category: 'Strategic', headline: 'StanChart restructures European procurement; centralises EU+APAC sourcing', snippet: 'Internal memo seen by eFinancialNews points to a new global ops centre in Singapore.', source: 'eFinancialNews', url: 'https://www.efinancialnews.com/articles/standard-chartered-procurement-restructure-2026' },
+      { date: '2025-12-10', category: 'M&A', headline: 'Standard Chartered to divest Lebanon retail operations', snippet: 'Continues geographic simplification. No material impact on procurement footprint.', source: 'Reuters', url: 'https://www.reuters.com/business/finance/standard-chartered-lebanon-divest-2025/' }
+    ]
+  },
+
+  unilever: {
+    ticker: 'LSE: ULVR', hq: 'London · United Kingdom', employees: '~128,000', revenue: '€60.8B (FY 2025)', updated: '2026-05-08',
+    stakeholders: [
+      { name: 'Hein Schumacher', title: 'Chief Executive Officer', color: 'from-cyan-600 to-blue-600', focus: 'Sponsor of Climate Transition Plan v3. Procurement central to Scope-3 commitments.', source: { label: 'Unilever Leadership', url: 'https://www.unilever.com/our-company/leadership/' } },
+      { name: 'Fernando Fernandez', title: 'Chief Financial Officer', color: 'from-indigo-600 to-blue-700', focus: 'Tight control on transformation spend post ice-cream demerger.', source: { label: 'Unilever Leadership', url: 'https://www.unilever.com/our-company/leadership/' } },
+      { name: 'Tom Becker', title: 'Global Chief Procurement Officer', color: 'from-violet-600 to-fuchsia-600', focus: 'Owner of S2C + Sustainability evaluation. Hard gate on supplier ESG scoring.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/tom-becker-unilever/' } },
+      { name: 'Aisha Patel', title: 'Head of Sustainable Sourcing', color: 'from-emerald-600 to-teal-600', focus: 'CSRD + Scope 3 reporting lead. Influences supplier-platform selection.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/aisha-patel-unilever/' } }
+    ],
+    news: [
+      { date: '2026-05-01', category: 'M&A', headline: 'Unilever completes ice cream demerger', snippet: 'Magnum Ice Cream Company now trades independently. Unilever signals tighter focus on Beauty + Personal Care.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-05-01/unilever-ice-cream-demerger-complete' },
+      { date: '2026-04-25', category: 'Funding', headline: 'Unilever Q1 USG +4.2%; pricing moderates as expected', snippet: 'In-line quarter; raised mid-term margin target by 50bps.', source: 'Reuters', url: 'https://www.reuters.com/business/retail-consumer/unilever-q1-2026/' },
+      { date: '2026-03-10', category: 'Strategic', headline: 'Unilever Climate Transition Plan v3 sets supplier-Scope-3 targets', snippet: 'Plan commits to 50% Scope-3 reduction by 2030 vs 2022, with hard targets for top 300 suppliers.', source: 'Unilever Press', url: 'https://www.unilever.com/news/press-and-media/press-releases/2026/climate-transition-plan-v3.html' },
+      { date: '2026-02-14', category: 'AI / Digital', headline: 'Unilever CDIO Steve McCrystal: "AI is rewiring our supply chain"', snippet: 'Detailed agentic-AI rollouts across demand planning, sustainable sourcing and supplier risk.', source: 'Computer Weekly', url: 'https://www.computerweekly.com/news/unilever-cdio-mccrystal-ai-supply-chain-2026' },
+      { date: '2026-01-20', category: 'M&A', headline: 'Unilever acquires premium beauty brand for $1.2B', snippet: 'Strengthens prestige beauty portfolio. Integration likely to drive procurement consolidation.', source: 'Financial Times', url: 'https://www.ft.com/content/unilever-premium-beauty-acquisition-2026' }
+    ]
+  },
+
+  maersk: {
+    ticker: 'CPSE: MAERSK-B', hq: 'Copenhagen · Denmark', employees: '~110,000', revenue: '$51.2B (FY 2025)', updated: '2026-05-08',
+    stakeholders: [
+      { name: 'Vincent Clerc', title: 'Chief Executive Officer', color: 'from-sky-600 to-indigo-600', focus: 'Driving the $5B cost-out programme. Open to platform consolidation.', source: { label: 'Maersk Leadership', url: 'https://www.maersk.com/about/leadership' } },
+      { name: 'Patrick Jany', title: 'Chief Financial Officer', color: 'from-blue-600 to-indigo-700', focus: 'Joined Mar 2026 from Clariant. Expected to scrutinise multi-year procurement contracts.', source: { label: 'Maersk Press', url: 'https://www.maersk.com/news/articles/2026/03/05/patrick-jany-cfo-appointment' } },
+      { name: 'Lars Pedersen', title: 'Head of Procure-to-Pay', color: 'from-violet-600 to-fuchsia-600', focus: 'Direct sponsor for Zycus P2P evaluation.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/lars-pedersen-maersk/' } },
+      { name: 'Detlef Kayser', title: 'Chief Logistics Officer', color: 'from-amber-600 to-orange-600', focus: 'Influences platform decisions across logistics integration partners.', source: { label: 'Maersk Leadership', url: 'https://www.maersk.com/about/leadership' } }
+    ],
+    news: [
+      { date: '2026-05-08', category: 'Funding', headline: 'Maersk Q1 below estimates; Red Sea / Suez disruption hits margins', snippet: 'Container EBITDA down 8%. Management reiterated $5B cost-cut target.', source: 'Wall Street Journal', url: 'https://www.wsj.com/articles/maersk-q1-2026-results' },
+      { date: '2026-04-15', category: 'Strategic', headline: 'Maersk announces $5B cost-cutting programme through 2027', snippet: 'Includes procurement consolidation across logistics integration acquisitions.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-04-15/maersk-5b-cost-cuts' },
+      { date: '2026-03-05', category: 'Leadership', headline: 'Patrick Jany joins Maersk as CFO', snippet: 'Joins from Clariant. Strong track record on procurement-led cost-outs.', source: 'Maersk Press', url: 'https://www.maersk.com/news/articles/2026/03/05/patrick-jany-cfo-appointment' },
+      { date: '2026-02-22', category: 'AI / Digital', headline: 'Maersk launches Logistics 4.0 — agentic AI supply-chain platform', snippet: 'In-house orchestration platform across 130+ countries. Stated objective: "AI-first decisioning by 2027."', source: 'gCaptain', url: 'https://gcaptain.com/maersk-logistics-4-agentic-ai-platform-2026' },
+      { date: '2026-01-30', category: 'M&A', headline: 'Maersk acquires Martin Bencher Group for $200M', snippet: 'Adds project-cargo capability. Triggers integration-driven supplier rationalisation.', source: 'Journal of Commerce', url: 'https://www.joc.com/maritime-news/container-lines/maersk-martin-bencher-acquisition-2026' }
+    ]
+  },
+
+  reliance: {
+    ticker: 'NSE: RELIANCE', hq: 'Mumbai · India', employees: '~390,000', revenue: '₹9.7L Cr (FY 2025)', updated: '2026-05-09',
+    stakeholders: [
+      { name: 'Mukesh Ambani', title: 'Chairman & Managing Director', color: 'from-violet-600 to-fuchsia-600', focus: 'Driving JioBrain agentic AI roll-out. Strong push on group-wide tech standardisation.', source: { label: 'Reliance Leadership', url: 'https://www.ril.com/AboutUs/Leadership/BoardOfDirectors.aspx' } },
+      { name: 'V. Srikanth', title: 'Group CFO', color: 'from-indigo-600 to-blue-700', focus: 'Approves multi-LOB platform decisions. Cost discipline post Retail IPO.', source: { label: 'Reliance Leadership', url: 'https://www.ril.com/AboutUs/Leadership/BoardOfDirectors.aspx' } },
+      { name: 'Suresh Iyer', title: 'Group Chief Digital Officer', color: 'from-emerald-600 to-teal-700', focus: 'Decision-maker for cross-LOB tech. Active in Zycus discovery.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/suresh-iyer-reliance/' } },
+      { name: 'Ramesh Wadhwani', title: 'Head of Strategic Procurement', color: 'from-amber-600 to-orange-600', focus: 'Building unified procurement op-model across 12 LOBs.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/ramesh-wadhwani-reliance/' } }
+    ],
+    news: [
+      { date: '2026-04-28', category: 'Strategic', headline: 'Reliance new energy hits 30 GWh battery capacity', snippet: 'Major capex deployed; new categories (cells, BoP, EPC) added to procurement scope.', source: 'Mint', url: 'https://www.livemint.com/companies/news/reliance-new-energy-30-gwh-2026' },
+      { date: '2026-04-12', category: 'Funding', headline: 'Reliance Retail IPO valued at $100B', snippet: 'Listing expected H2 2026. Triggers procurement carve-out / harmonisation programme.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-04-12/reliance-retail-ipo-100b-valuation' },
+      { date: '2026-03-01', category: 'AI / Digital', headline: 'Reliance unveils JioBrain — agentic AI platform for retail and telecom', snippet: 'Announced in-house large-action-model platform. Procurement-tech named as "Phase 2 deployment target."', source: 'The Economic Times', url: 'https://economictimes.indiatimes.com/tech/technology/reliance-jiobrain-agentic-ai-platform' },
+      { date: '2026-02-20', category: 'AI / Digital', headline: 'Reliance partners with NVIDIA for AI infrastructure across India', snippet: 'Multi-billion-dollar GPU + sovereign-cloud build-out. Foundation for procurement-AI initiatives.', source: 'Reuters', url: 'https://www.reuters.com/technology/reliance-nvidia-ai-infrastructure-india-2026/' },
+      { date: '2026-01-15', category: 'Funding', headline: 'Reliance Jio Series-A2 round at $200B post-money', snippet: 'KKR, GIC and ADIA participated. Capital allocated to network + AI infrastructure.', source: 'Forbes India', url: 'https://www.forbesindia.com/article/reliance-jio-series-a2-200b-2026' }
+    ]
+  },
+
+  exxon: {
+    ticker: 'NYSE: XOM', hq: 'Spring, TX · USA', employees: '~62,000', revenue: '$344B (FY 2025)', updated: '2026-05-07',
+    stakeholders: [
+      { name: 'Darren Woods', title: 'Chairman & Chief Executive Officer', color: 'from-rose-700 to-red-600', focus: 'Backing $7B carbon capture programme. Top-down sponsor of digital ops.', source: { label: 'ExxonMobil Leadership', url: 'https://corporate.exxonmobil.com/About-us/Who-we-are/Officers' } },
+      { name: 'Kathryn Mikells', title: 'Senior VP & CFO', color: 'from-blue-600 to-indigo-700', focus: 'Driver of indirect-spend rationalisation. Active sponsor of analytics-led tail-spend work.', source: { label: 'ExxonMobil Leadership', url: 'https://corporate.exxonmobil.com/About-us/Who-we-are/Officers' } },
+      { name: 'Karen Wu', title: 'Director, Indirect Procurement', color: 'from-violet-600 to-fuchsia-600', focus: 'Owner of $3B tail-spend programme. Active in Zycus eval.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/karen-wu-exxonmobil/' } },
+      { name: 'Greg Goff', title: 'Head of Strategic Sourcing', color: 'from-amber-600 to-orange-600', focus: 'Direct material category lead.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/greg-goff-exxon/' } }
+    ],
+    news: [
+      { date: '2026-04-30', category: 'Funding', headline: 'ExxonMobil Q1 earnings $9.2B; cash flow from ops $13B', snippet: 'Strong Permian production; low-carbon spend at planned cadence.', source: 'Wall Street Journal', url: 'https://www.wsj.com/articles/exxonmobil-q1-2026-results' },
+      { date: '2026-04-02', category: 'Strategic', headline: 'Exxon doubles carbon capture spend to $7B by 2027', snippet: 'Programme will add new supplier categories (carbon-storage tech, CO2 logistics).', source: 'Reuters', url: 'https://www.reuters.com/business/energy/exxonmobil-7b-carbon-capture-2026/' },
+      { date: '2026-03-25', category: 'Leadership', headline: 'Exxon names former tech-sector exec as new Chief Digital Officer', snippet: 'External hire signals broader digital push beyond upstream operations.', source: 'Reuters', url: 'https://www.reuters.com/business/energy/exxon-names-cdo-2026/' },
+      { date: '2026-03-10', category: 'M&A', headline: 'Exxon to acquire Permian basin player for $5B', snippet: 'Bolt-on acquisition; integration likely to drive procurement-platform consolidation.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-03-10/exxon-permian-acquisition-5b' },
+      { date: '2026-02-18', category: 'AI / Digital', headline: 'ExxonMobil rolls out AI-driven well optimisation across the Permian', snippet: 'Reported 6% production-uplift in pilot wells. Procurement implications for materials + services.', source: 'Oil & Gas Journal', url: 'https://www.ogj.com/exploration-development/exxonmobil-ai-well-optimization-permian-2026' }
+    ]
+  },
+
+  nestle: {
+    ticker: 'SIX: NESN', hq: 'Vevey · Switzerland', employees: '~277,000', revenue: 'CHF 93.7B (FY 2025)', updated: '2026-05-08',
+    stakeholders: [
+      { name: 'Laurent Freixe', title: 'Chief Executive Officer', color: 'from-amber-600 to-orange-600', focus: 'Re-emphasising operational excellence + supplier consolidation.', source: { label: 'Nestlé Leadership', url: 'https://www.nestle.com/about/management' } },
+      { name: 'Anna Manz', title: 'Chief Financial Officer', color: 'from-blue-600 to-indigo-700', focus: 'Strict capex governance. Tracking ROI on prior procurement investments.', source: { label: 'Nestlé Leadership', url: 'https://www.nestle.com/about/management' } },
+      { name: 'François Leclerc', title: 'VP Group Procurement', color: 'from-violet-600 to-fuchsia-600', focus: 'POC sponsor. Hard gate on Scope-3 traceability.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/francois-leclerc-nestle/' } },
+      { name: 'Marie Dubois', title: 'Head of Sustainable Sourcing', color: 'from-emerald-600 to-teal-600', focus: 'Drives ESG criteria into supplier scoring. CSRD reporting lead.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/marie-dubois-nestle/' } }
+    ],
+    news: [
+      { date: '2026-04-25', category: 'Funding', headline: 'Nestlé Q1 organic growth 3.6%; in-line with guidance', snippet: 'Pricing contribution moderating; volume turning positive in coffee.', source: 'Reuters', url: 'https://www.reuters.com/business/retail-consumer/nestle-q1-2026/' },
+      { date: '2026-04-18', category: 'Strategic', headline: 'Nestlé extends plant-based partnership with Beyond Meat', snippet: 'Expanded supplier scope to include alternative-protein co-manufacturing.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-04-18/nestle-beyond-meat-partnership' },
+      { date: '2026-03-12', category: 'M&A', headline: 'Nestlé acquires premium coffee brand for $850M', snippet: 'Adds direct-trade supply network; triggers supplier-master integration.', source: 'Financial Times', url: 'https://www.ft.com/content/nestle-premium-coffee-acquisition-2026' },
+      { date: '2026-02-08', category: 'Leadership', headline: 'Nestlé names new Global Head of Digital Procurement', snippet: 'Reports to François Leclerc. Mandate covers AI-led sourcing + supplier risk.', source: 'LinkedIn', url: 'https://www.linkedin.com/posts/nestle_global-head-digital-procurement-2026' },
+      { date: '2026-01-22', category: 'AI / Digital', headline: 'Nestlé pilots AI supplier-screening platform across Europe', snippet: 'Pilot covers 4,000 suppliers. Plans to extend to LATAM in H2.', source: 'Procurement Magazine', url: 'https://procurementmag.com/articles/nestle-ai-supplier-screening-pilot-2026' }
+    ]
+  },
+
+  walmart: {
+    ticker: 'NYSE: WMT', hq: 'Bentonville, AR · USA', employees: '~2.1M', revenue: '$681B (FY 2025)', updated: '2026-05-08',
+    stakeholders: [
+      { name: 'Doug McMillon', title: 'President & CEO', color: 'from-blue-700 to-sky-600', focus: 'Top-down push on AI-personalisation + supplier ecosystem.', source: { label: 'Walmart Leadership', url: 'https://corporate.walmart.com/about/leadership' } },
+      { name: 'John David Rainey', title: 'EVP & Chief Financial Officer', color: 'from-indigo-600 to-blue-700', focus: 'Approver for the active SoW. ROTE-driven capex prioritisation.', source: { label: 'Walmart Leadership', url: 'https://corporate.walmart.com/about/leadership' } },
+      { name: 'Linda Greene', title: 'SVP Sourcing (Walmart US)', color: 'from-violet-600 to-fuchsia-600', focus: 'Owner of go-live timeline. Pressing for 14-week phased rollout.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/linda-greene-walmart/' } },
+      { name: 'Casey Carl', title: 'Chief Strategy & Development Officer', color: 'from-amber-600 to-orange-600', focus: 'Influences platform decisions; champion of consolidation post acquisitions.', source: { label: 'Walmart Leadership', url: 'https://corporate.walmart.com/about/leadership' } }
+    ],
+    news: [
+      { date: '2026-04-22', category: 'Funding', headline: 'Walmart Connect ad business hits $4B run-rate', snippet: 'Retail-media pillar growing 30%+. Funds reinvestment in supplier-collaboration tooling.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-04-22/walmart-connect-4b-runrate' },
+      { date: '2026-03-08', category: 'M&A', headline: 'Walmart acquires health-tech startup for $750M', snippet: 'Expands healthcare offering. Likely to add new vendor categories to procurement scope.', source: 'Reuters', url: 'https://www.reuters.com/business/retail-consumer/walmart-health-tech-acquisition-2026/' },
+      { date: '2026-02-22', category: 'Funding', headline: 'Walmart Q4 results beat; US comparable sales +5.2%', snippet: 'Strong holiday quarter. Management raised mid-term margin guidance.', source: 'Reuters', url: 'https://www.reuters.com/business/retail-consumer/walmart-q4-2025-results/' },
+      { date: '2026-02-15', category: 'AI / Digital', headline: 'Walmart rolls out AI-personalisation to all 4,700 US stores', snippet: 'Generative shopping assistant + dynamic merchandising. Expanded use of supplier-data sharing.', source: 'Walmart Newsroom', url: 'https://corporate.walmart.com/news/2026/02/15/walmart-ai-personalization-rollout' },
+      { date: '2026-01-20', category: 'Leadership', headline: 'Walmart names new Chief Procurement Officer for US division', snippet: 'External hire from a top retailer; mandate includes platform consolidation.', source: 'Wall Street Journal', url: 'https://www.wsj.com/articles/walmart-cpo-us-2026' }
+    ]
+  },
+
+  lufthansa: {
+    ticker: 'XETRA: LHA', hq: 'Cologne · Germany', employees: '~110,000', revenue: '€37.6B (FY 2025)', updated: '2026-05-09',
+    stakeholders: [
+      { name: 'Carsten Spohr', title: 'Chairman & CEO', color: 'from-yellow-600 to-amber-700', focus: 'Backing €5B digital roadmap. Tight on capex post ITA integration.', source: { label: 'Lufthansa Leadership', url: 'https://www.lufthansagroup.com/en/company/executives.html' } },
+      { name: 'Till Streichert', title: 'Chief Financial Officer', color: 'from-blue-600 to-indigo-700', focus: 'New CFO (Apr 2026). Reviewing all multi-year procurement contracts.', source: { label: 'Lufthansa Press', url: 'https://www.lufthansagroup.com/en/newsroom/releases/till-streichert-cfo-2026' } },
+      { name: 'Klaus Müller', title: 'Head of Procurement', color: 'from-violet-600 to-fuchsia-600', focus: 'MRO category lead. Sponsor for Zycus Source-to-Contract eval.', source: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/klaus-mueller-lufthansa/' } },
+      { name: 'Detlef Kayser', title: 'Member of the Executive Board, Operations', color: 'from-amber-600 to-orange-600', focus: 'AI-driven MRO programme owner; influences platform decisions for ops-adjacent procurement.', source: { label: 'Lufthansa Leadership', url: 'https://www.lufthansagroup.com/en/company/executives.html' } }
+    ],
+    news: [
+      { date: '2026-05-05', category: 'Funding', headline: 'Lufthansa Q1 below expectations; cargo softer than guidance', snippet: 'Management reiterated FY EBIT range. Cost programme remains on track.', source: 'Bloomberg', url: 'https://www.bloomberg.com/news/articles/2026-05-05/lufthansa-q1-2026-results' },
+      { date: '2026-04-12', category: 'Leadership', headline: 'Lufthansa announces CFO transition to Till Streichert', snippet: 'Streichert joins from Henkel. Expected to scrutinise procurement-tech investments.', source: 'Lufthansa Press', url: 'https://www.lufthansagroup.com/en/newsroom/releases/till-streichert-cfo-2026' },
+      { date: '2026-03-08', category: 'AI / Digital', headline: 'Lufthansa launches AI-driven MRO predictive maintenance', snippet: 'Reduces unplanned downtime by 11% in pilot fleet. Triggers re-look at MRO supplier base.', source: 'Aviation Week', url: 'https://aviationweek.com/mro/lufthansa-ai-predictive-maintenance-2026' },
+      { date: '2026-02-15', category: 'Strategic', headline: 'Lufthansa unveils €5B digital transformation roadmap', snippet: 'Multi-year plan; procurement modernisation included as a stated pillar.', source: 'Der Spiegel', url: 'https://www.spiegel.de/wirtschaft/unternehmen/lufthansa-digital-transformation-roadmap-2026' },
+      { date: '2026-01-15', category: 'M&A', headline: 'Lufthansa completes ITA Airways acquisition', snippet: 'Triggers integration-driven procurement consolidation across two carriers.', source: 'Reuters', url: 'https://www.reuters.com/business/aerospace-defense/lufthansa-ita-airways-completion-2026/' }
+    ]
+  }
+};
+
+const newsCategoryColor = (c) => ({
+  'M&A': { ring: 'bg-rose-50 text-rose-700 ring-rose-200', dot: '#f43f5e', icon: 'handshake' },
+  'Funding': { ring: 'bg-emerald-50 text-emerald-700 ring-emerald-200', dot: '#10b981', icon: 'trending-up' },
+  'AI / Digital': { ring: 'bg-violet-50 text-violet-700 ring-violet-200', dot: '#8b5cf6', icon: 'sparkles' },
+  'Leadership': { ring: 'bg-amber-50 text-amber-700 ring-amber-200', dot: '#f59e0b', icon: 'user-plus' },
+  'Strategic': { ring: 'bg-sky-50 text-sky-700 ring-sky-200', dot: '#0ea5e9', icon: 'target' }
+}[c] || { ring: 'bg-slate-50 text-slate-700 ring-slate-200', dot: '#64748b', icon: 'newspaper' });
+
+/* ==================== STATE & ROUTER ==================== */
+
+const state = {
+  view: 'docagent',
+  selectedAccount: null,
+  selectedCall: null,
+  filters: { search: '', industry: 'all', region: 'all', stage: 'all', dateRange: 'all' },
+  oppFilters: { search: '', stage: 'all', type: 'all', owner: 'all' },
+  intelCategoryFilter: 'all',
+  detailTab: 'overview'
+};
+
+function navigate(view, params = {}) {
+  if (view === 'account-intel') state.intelCategoryFilter = 'all';
+  state.view = view;
+  if (params.accountId) state.selectedAccount = params.accountId;
+  if (params.tab) state.detailTab = params.tab;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
+
+/* ==================== UTILS ==================== */
+
+const $ = (id) => document.getElementById(id);
+const fmtCurrency = (n) => '$' + (n >= 1000000 ? (n/1000000).toFixed(1) + 'M' : (n/1000).toFixed(0) + 'K');
+const fmtDate = (d) => { const dt = new Date(d); return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); };
+const STAGES = ['Initial Interest','Qualified','Formal Evaluation','Shortlisted','Vendor Selected','Contract in Progress','Contract Signed'];
+const stageProbability = { 'Initial Interest': 0.10, 'Qualified': 0.25, 'Formal Evaluation': 0.40, 'Shortlisted': 0.60, 'Vendor Selected': 0.80, 'Contract in Progress': 0.95, 'Contract Signed': 1.00 };
+const stageColor = (stage) => ({
+  'Initial Interest': 'bg-slate-100 text-slate-700 ring-slate-200',
+  'Qualified': 'bg-sky-50 text-sky-700 ring-sky-200',
+  'Formal Evaluation': 'bg-violet-50 text-violet-700 ring-violet-200',
+  'Shortlisted': 'bg-amber-50 text-amber-700 ring-amber-200',
+  'Vendor Selected': 'bg-orange-50 text-orange-700 ring-orange-200',
+  'Contract in Progress': 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+  'Contract Signed': 'bg-green-100 text-green-800 ring-green-300'
+}[stage] || 'bg-slate-100 text-slate-700 ring-slate-200');
+const stageBgHex = (s) => ({ 'Initial Interest':'#94a3b8','Qualified':'#0ea5e9','Formal Evaluation':'#8b5cf6','Shortlisted':'#f59e0b','Vendor Selected':'#f97316','Contract in Progress':'#10b981','Contract Signed':'#16a34a' }[s] || '#94a3b8');
+const healthColor = (n) => n >= 85 ? 'text-emerald-600' : n >= 70 ? 'text-amber-600' : 'text-rose-600';
+const healthBg = (n) => n >= 85 ? 'bg-emerald-500' : n >= 70 ? 'bg-amber-500' : 'bg-rose-500';
+
+function getFiltered() {
+  return ACCOUNTS.filter(a => {
+    if (state.filters.search) { const s = state.filters.search.toLowerCase(); if (!a.name.toLowerCase().includes(s) && !a.industry.toLowerCase().includes(s)) return false; }
+    if (state.filters.industry !== 'all' && a.industry !== state.filters.industry) return false;
+    if (state.filters.region !== 'all' && a.region !== state.filters.region) return false;
+    if (state.filters.stage !== 'all' && a.stage !== state.filters.stage) return false;
+    if (state.filters.dateRange !== 'all') {
+      const days = parseInt(state.filters.dateRange);
+      const diff = (new Date('2026-05-10') - new Date(a.lastCall)) / (1000*60*60*24);
+      if (diff > days) return false;
+    }
+    return true;
+  });
+}
+
+/* ==================== VIEW: DASHBOARD ==================== */
+
+function viewDashboard() {
+  const accs = getFiltered();
+  const totalPipeline = accs.reduce((s, a) => s + a.dealSize, 0);
+  const totalCalls = accs.reduce((s, a) => s + a.callsCount, 0);
+  const docsGenerated = accs.reduce((s, a) => {
+    const calls = CALL_DATA[a.id] || [];
+    return s + calls.reduce((s2, c) => s2 + (c.hasMOM?1:0) + (c.hasSolutioning?1:0) + (c.hasValue?1:0), 0);
+  }, 0);
+  const hotDeals = accs.filter(a => a.stage === 'Vendor Selected' || a.stage === 'Contract in Progress' || a.stage === 'Contract Signed').length;
+
+  return `
+    <!-- Hero -->
+    <div class="mb-8">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold mb-1.5">Welcome back, Anuradha</div>
+          <h1 class="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">Presales Intelligence Hub</h1>
+          <p class="text-sm text-slate-500 mt-1.5">${accs.length} active accounts · ${totalCalls} calls captured · ${docsGenerated} documents auto-generated this quarter</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="exportSummary()" class="flex items-center gap-2 bg-white text-slate-700 text-sm font-medium px-3.5 py-2 rounded-lg border border-slate-200 hover:border-slate-300 transition">
+            <i data-lucide="download" class="w-4 h-4"></i> Export pipeline view
+          </button>
+          <button onclick="openIngestModal()" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition shadow-sm">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Generate from new call
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
+      ${kpi('Active accounts', accs.length, 'building-2', 'indigo', '+2 this month')}
+      ${kpi('Pipeline value', fmtCurrency(totalPipeline), 'trending-up', 'emerald', '+18% vs last qtr')}
+      ${kpi('Documents generated', docsGenerated, 'file-text', 'violet', '~6.5 hrs saved per call')}
+      ${kpi('Late-stage deals', hotDeals, 'flame', 'rose', `${accs.length ? Math.round(hotDeals/accs.length*100) : 0}% of book · Vendor Selected+`)}
+    </div>
+
+    <!-- Filters + Accounts -->
+    <div class="bg-white rounded-2xl ring-card overflow-hidden">
+      <div class="p-5 border-b border-slate-100 flex flex-wrap items-center gap-3">
+        <div class="relative flex-1 min-w-[220px]">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input value="${state.filters.search}" oninput="state.filters.search = this.value; renderAccountsTable();" placeholder="Filter by account name…" class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 outline-none rounded-lg pl-9 pr-3 py-2 text-sm" />
+        </div>
+        ${selectFilter('industry', ['all','Pharmaceuticals','Manufacturing','BFSI','CPG','Logistics','Conglomerate','Energy','F&B','Retail','Aviation'], 'Industry')}
+        ${selectFilter('region', ['all','North America','Europe','APAC','Global'], 'Region')}
+        ${selectFilter('stage', ['all', ...STAGES], 'Stage')}
+        ${selectFilter('dateRange', ['all','7','30','90'], 'Last call', { '7':'Last 7 days','30':'Last 30 days','90':'Last 90 days','all':'All time' })}
+        <button onclick="resetFilters()" class="text-xs text-slate-500 hover:text-slate-700 px-2 py-1 rounded">
+          <i data-lucide="x" class="w-3 h-3 inline -mt-0.5"></i> Reset
+        </button>
+      </div>
+
+      <div id="accounts-table">${renderAccountsTableContent()}</div>
+    </div>
+  `;
+}
+
+function kpi(label, value, icon, color, sub) {
+  const colorMap = {
+    indigo: ['from-indigo-500 to-indigo-600','bg-indigo-50','text-indigo-600'],
+    emerald: ['from-emerald-500 to-emerald-600','bg-emerald-50','text-emerald-600'],
+    violet: ['from-violet-500 to-fuchsia-500','bg-violet-50','text-violet-600'],
+    rose: ['from-rose-500 to-rose-600','bg-rose-50','text-rose-600']
+  }[color];
+  return `
+    <div class="bg-white rounded-xl ring-card p-5 lift">
+      <div class="flex items-start justify-between mb-3">
+        <div class="w-9 h-9 rounded-lg ${colorMap[1]} flex items-center justify-center"><i data-lucide="${icon}" class="w-4 h-4 ${colorMap[2]}"></i></div>
+        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Live</span>
+      </div>
+      <div class="text-[12px] text-slate-500 font-medium">${label}</div>
+      <div class="text-2xl font-bold text-slate-900 mt-0.5">${value}</div>
+      <div class="text-[11px] text-slate-400 mt-1">${sub}</div>
+    </div>
+  `;
+}
+
+function selectFilter(key, options, label, customLabels = {}) {
+  const fallbackAll = { industry: 'All industries', region: 'All regions', stage: 'All stages', dateRange: 'All time' }[key] || 'All';
+  return `
+    <select onchange="state.filters.${key} = this.value; renderAccountsTable();" class="bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-300 cursor-pointer">
+      ${options.map(o => {
+        const text = customLabels[o] || (o === 'all' ? fallbackAll : o);
+        return `<option value="${o}" ${state.filters[key]===o?'selected':''}>${text}</option>`;
+      }).join('')}
+    </select>
+  `;
+}
+
+function renderAccountsTable() {
+  const el = $('accounts-table');
+  if (el) { el.innerHTML = renderAccountsTableContent(); lucide.createIcons(); }
+}
+
+function renderAccountsTableContent() {
+  const accs = getFiltered();
+  if (accs.length === 0) {
+    return `<div class="p-12 text-center"><div class="text-slate-400 mb-2"><i data-lucide="inbox" class="w-10 h-10 inline"></i></div><div class="text-sm text-slate-600 font-medium">No accounts match your filters</div><button onclick="resetFilters()" class="text-xs text-indigo-600 mt-2 hover:underline">Clear filters</button></div>`;
+  }
+  return `
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-100">
+        <th class="px-5 py-3 font-semibold">Account</th>
+        <th class="px-5 py-3 font-semibold">Stage</th>
+        <th class="px-5 py-3 font-semibold">Deal Size</th>
+        <th class="px-5 py-3 font-semibold">Calls</th>
+        <th class="px-5 py-3 font-semibold">Documents</th>
+        <th class="px-5 py-3 font-semibold">Last call</th>
+        <th class="px-5 py-3 font-semibold">Health</th>
+        <th class="px-5 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      ${accs.map(a => {
+        const calls = CALL_DATA[a.id] || [];
+        const hasAll = calls[0]?.hasMOM && calls[0]?.hasSolutioning && calls[0]?.hasValue;
+        return `
+        <tr class="border-b border-slate-50 hover:bg-slate-50/50 cursor-pointer transition" onclick="navigate('account-detail',{accountId:'${a.id}'})">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-gradient-to-br ${a.color} flex items-center justify-center text-white text-xs font-bold shadow-sm">${a.logo}</div>
+              <div class="min-w-0">
+                <div class="font-semibold text-slate-900 truncate">${a.name}</div>
+                <div class="text-[11px] text-slate-500 truncate">${a.industry} · ${a.region}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-5 py-3.5"><span class="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-md ring-1 ${stageColor(a.stage)}">${a.stage}</span></td>
+          <td class="px-5 py-3.5"><div class="font-semibold text-slate-900">${fmtCurrency(a.dealSize)}</div></td>
+          <td class="px-5 py-3.5"><div class="text-slate-700 font-medium">${a.callsCount}</div></td>
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-1">
+              ${docPill('MOM', calls[0]?.hasMOM)}
+              ${docPill('Sol', calls[0]?.hasSolutioning)}
+              ${docPill('Val', calls[0]?.hasValue)}
+            </div>
+          </td>
+          <td class="px-5 py-3.5"><div class="text-slate-600 text-[13px]">${fmtDate(a.lastCall)}</div></td>
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2">
+              <div class="w-12 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="${healthBg(a.healthScore)} h-full" style="width:${a.healthScore}%"></div></div>
+              <span class="text-[12px] font-semibold ${healthColor(a.healthScore)}">${a.healthScore}</span>
+            </div>
+          </td>
+          <td class="px-5 py-3.5 text-right">
+            <button class="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition" onclick="event.stopPropagation();navigate('account-detail',{accountId:'${a.id}'})">
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table>
+  `;
+}
+
+function docPill(label, exists) {
+  return exists
+    ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200" title="${label} ready"><i data-lucide="check" class="w-2.5 h-2.5"></i>${label}</span>`
+    : `<span class="inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-slate-50 text-slate-400 ring-1 ring-slate-200" title="${label} not generated">${label}</span>`;
+}
+
+function resetFilters() {
+  state.filters = { search: '', industry: 'all', region: 'all', stage: 'all', dateRange: 'all' };
+  render();
+}
+
+/* ==================== VIEW: ACCOUNT DETAIL ==================== */
+
+function viewAccountDetail() {
+  const a = ACCOUNTS.find(x => x.id === state.selectedAccount);
+  if (!a) return '<div class="text-slate-500">Account not found.</div>';
+  const calls = CALL_DATA[a.id] || [];
+  const docs = ensureDocs(a.id);
+  const tab = state.detailTab;
+
+  return `
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-[13px] text-slate-500 mb-5">
+      <a onclick="navigate('docagent')" class="hover:text-slate-900 cursor-pointer">Documentation Agent</a>
+      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+      <span class="text-slate-900 font-medium">${a.name}</span>
+    </div>
+
+    <!-- Account hero -->
+    <div class="bg-white rounded-2xl ring-card overflow-hidden mb-6">
+      <div class="p-6 lg:p-7 flex flex-wrap items-start justify-between gap-5">
+        <div class="flex items-start gap-4 flex-1 min-w-0">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br ${a.color} flex items-center justify-center text-white text-xl font-bold shadow-md shrink-0">${a.logo}</div>
+          <div class="min-w-0">
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">${a.name}</h1>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[13px] text-slate-500">
+              <span class="flex items-center gap-1"><i data-lucide="briefcase" class="w-3.5 h-3.5"></i>${a.industry}</span>
+              <span class="flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i>${a.region}</span>
+              <span class="flex items-center gap-1"><i data-lucide="user" class="w-3.5 h-3.5"></i>${a.stakeholder}</span>
+              <span class="flex items-center gap-1"><i data-lucide="user-check" class="w-3.5 h-3.5"></i>Owner: ${a.owner}</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mt-3">
+              <span class="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-md ring-1 ${stageColor(a.stage)}">${a.stage}</span>
+              ${a.tags.map(t => `<span class="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 ring-1 ring-slate-200">${t}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-3">
+          <div class="text-right">
+            <div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Pipeline value</div>
+            <div class="text-2xl font-bold text-slate-900">${fmtCurrency(a.dealSize)}</div>
+          </div>
+          <button onclick="openIngestModal('${a.id}')" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Pull new call from Avoma
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="border-t border-slate-100 px-6 flex gap-0.5">
+        ${tabBtn('overview','Overview','layout-grid')}
+        ${tabBtn('calls','Calls & Transcripts','phone-call', calls.length)}
+        ${tabBtn('mom','Minutes of Meeting','clipboard-check')}
+        ${tabBtn('solutioning','Solutioning','puzzle')}
+        ${tabBtn('value','Value Document','trending-up')}
+      </div>
+    </div>
+
+    <!-- Tab content -->
+    <div id="tab-content" class="fade-in">
+      ${tab === 'overview' ? renderOverviewTab(a, calls, docs) : ''}
+      ${tab === 'calls' ? renderCallsTab(a, calls) : ''}
+      ${tab === 'mom' ? renderMomTab(a, docs.mom) : ''}
+      ${tab === 'solutioning' ? renderSolutioningTab(a, docs.solutioning) : ''}
+      ${tab === 'value' ? renderValueTab(a, docs.value) : ''}
+    </div>
+  `;
+}
+
+function tabBtn(id, label, icon, count) {
+  const active = state.detailTab === id;
+  return `<button onclick="state.detailTab='${id}';render();" class="flex items-center gap-2 px-4 py-3 text-[13px] font-medium border-b-2 transition ${active ? 'border-indigo-600 text-indigo-700' : 'border-transparent text-slate-500 hover:text-slate-900'}">
+    <i data-lucide="${icon}" class="w-4 h-4"></i>${label}${count !== undefined ? `<span class="text-[10px] px-1.5 py-0.5 rounded-md ${active ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'}">${count}</span>` : ''}
+  </button>`;
+}
+
+function renderOverviewTab(a, calls, docs) {
+  const lastCall = calls[0];
+  return `
+    <div class="grid lg:grid-cols-3 gap-5">
+      <div class="lg:col-span-2 space-y-5">
+        <!-- last call summary -->
+        <div class="bg-white rounded-2xl ring-card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-slate-900">Most recent call</h3>
+            <button onclick="state.detailTab='calls';render();" class="text-xs text-indigo-600 hover:underline">View all calls →</button>
+          </div>
+          ${lastCall ? `
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1">
+              <div class="font-medium text-slate-900">${lastCall.title}</div>
+              <div class="text-[12px] text-slate-500 mt-0.5">${fmtDate(lastCall.date)} · ${lastCall.duration} min · ${lastCall.attendees.client.length + lastCall.attendees.zycus.length} participants</div>
+              <div class="mt-3 p-3 bg-slate-50 rounded-lg text-[13px] text-slate-700 italic leading-relaxed">"${lastCall.transcriptSnippet}"</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-slate-100">
+            ${docs.mom ? `<button onclick="state.detailTab='mom';render();" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 ring-1 ring-emerald-200"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>MOM ready</button>` : ''}
+            ${docs.solutioning ? `<button onclick="state.detailTab='solutioning';render();" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 ring-1 ring-emerald-200"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>Solutioning ready</button>` : ''}
+            ${docs.value ? `<button onclick="state.detailTab='value';render();" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 ring-1 ring-emerald-200"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>Value doc ready</button>` : ''}
+          </div>` : '<div class="text-sm text-slate-500">No calls captured yet for this account. Pull one from Avoma to start.</div>'}
+        </div>
+
+        <!-- pain + value snapshot -->
+        <div class="bg-white rounded-2xl ring-card p-6">
+          <h3 class="font-semibold text-slate-900 mb-3">Pain points captured (top 3)</h3>
+          <ul class="space-y-2">
+            ${(docs.value.painPoints || []).slice(0,3).map(p => `<li class="flex items-start gap-2.5 text-[13px] text-slate-700"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1.5 shrink-0"></span>${p}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <!-- documents card -->
+        <div class="bg-white rounded-2xl ring-card p-5">
+          <h3 class="font-semibold text-slate-900 mb-1">Document hub</h3>
+          <p class="text-[12px] text-slate-500 mb-4">All documents auto-generated for this account</p>
+          ${docCard('Minutes of Meeting','clipboard-check','indigo','mom', !!docs.mom, lastCall?.date)}
+          ${docCard('Solutioning Document','puzzle','violet','solutioning', !!docs.solutioning, lastCall?.date)}
+          ${docCard('Value Document','trending-up','emerald','value', !!docs.value, lastCall?.date)}
+        </div>
+
+        <!-- next steps card -->
+        <div class="bg-white rounded-2xl ring-card p-5">
+          <h3 class="font-semibold text-slate-900 mb-3">Action items</h3>
+          <ul class="space-y-3">
+            ${(docs.mom.nextSteps || []).slice(0,4).map(s => `
+              <li class="flex items-start gap-3 text-[13px]">
+                <i data-lucide="circle" class="w-3.5 h-3.5 text-slate-300 mt-1 shrink-0"></i>
+                <div>
+                  <div class="text-slate-700">${s.item}</div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">${s.owner} · due ${s.due}</div>
+                </div>
+              </li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function docCard(label, icon, color, key, exists, date) {
+  const colorMap = { indigo: ['bg-indigo-50','text-indigo-600'], violet: ['bg-violet-50','text-violet-600'], emerald: ['bg-emerald-50','text-emerald-600'] }[color];
+  return `
+    <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/60 transition mb-2 last:mb-0">
+      <div class="w-9 h-9 rounded-lg ${colorMap[0]} flex items-center justify-center shrink-0"><i data-lucide="${icon}" class="w-4 h-4 ${colorMap[1]}"></i></div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[13px] font-semibold text-slate-900 truncate">${label}</div>
+        <div class="text-[11px] text-slate-500 truncate">${exists ? `Ready · ${fmtDate(date)}` : 'Not generated yet'}</div>
+      </div>
+      ${exists ? `
+        <button onclick="state.detailTab='${key}';render();" class="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50" title="Preview"><i data-lucide="eye" class="w-4 h-4"></i></button>
+        <button onclick="downloadDoc('${state.selectedAccount}','${key}')" class="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50" title="Download"><i data-lucide="download" class="w-4 h-4"></i></button>
+      ` : `<button onclick="openIngestModal('${state.selectedAccount}')" class="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800">Generate</button>`}
+    </div>
+  `;
+}
+
+function renderCallsTab(a, calls) {
+  if (!calls.length) return '<div class="bg-white rounded-2xl ring-card p-8 text-center text-sm text-slate-500">No calls captured yet.</div>';
+  return `
+    <div class="bg-white rounded-2xl ring-card overflow-hidden">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div><h3 class="font-semibold text-slate-900">Captured calls</h3><p class="text-[12px] text-slate-500 mt-0.5">Pulled from Avoma · auto-transcribed and indexed</p></div>
+        <button onclick="openIngestModal('${a.id}')" class="text-xs flex items-center gap-1.5 bg-slate-900 text-white px-3 py-1.5 rounded-lg hover:bg-slate-800"><i data-lucide="plus" class="w-3.5 h-3.5"></i>Add new call</button>
+      </div>
+      <ul class="divide-y divide-slate-100">
+        ${calls.map(c => `
+          <li class="p-5 hover:bg-slate-50/50 transition">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex-1 min-w-0">
+                <div class="font-medium text-slate-900">${c.title}</div>
+                <div class="text-[12px] text-slate-500 mt-1">${fmtDate(c.date)} · ${c.duration} min · ${c.attendees.client.length + c.attendees.zycus.length} participants</div>
+                <div class="mt-2 text-[12px] text-slate-600 italic line-clamp-2">"${c.transcriptSnippet}"</div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                ${c.hasMOM ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold">MOM</span>` : ''}
+                ${c.hasSolutioning ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-violet-50 text-violet-700 font-semibold">Sol</span>` : ''}
+                ${c.hasValue ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold">Val</span>` : ''}
+              </div>
+            </div>
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+  `;
+}
+
+/* ============ MOM Tab ============ */
+function renderMomTab(a, mom) {
+  return `
+    <div class="grid lg:grid-cols-3 gap-5">
+      <div class="lg:col-span-2 bg-white rounded-2xl doc-shadow p-8 print-page">
+        <div class="flex items-start justify-between mb-6 no-print">
+          <div>
+            <div class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Document</div>
+            <h2 class="text-lg font-bold text-slate-900 mt-1">Minutes of Meeting</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"><i data-lucide="printer" class="w-3.5 h-3.5"></i>Print</button>
+            <button onclick="downloadDoc('${a.id}','mom')" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white"><i data-lucide="download" class="w-3.5 h-3.5"></i>Download .doc</button>
+          </div>
+        </div>
+
+        <div class="doc-prose">
+          <h1>${a.name} — Minutes of Meeting</h1>
+          <p class="text-[12px] text-slate-500">${mom.callTitle} · ${fmtDate(mom.date)} · ${mom.duration}</p>
+
+          <h2>Attendees</h2>
+          <table>
+            <thead><tr><th>Organization</th><th>Participants</th></tr></thead>
+            <tbody>
+              ${Object.entries(mom.attendees).map(([org, people]) => `<tr><td><strong>${org}</strong></td><td>${people.join('<br>')}</td></tr>`).join('')}
+            </tbody>
+          </table>
+
+          <h2>Key Discussion Points</h2>
+          <ol>${mom.keyDiscussion.map(p => `<li>${p}</li>`).join('')}</ol>
+
+          <h2>Open Points</h2>
+          <ul>${mom.openPoints.map(p => `<li>${p}</li>`).join('')}</ul>
+
+          <h2>Next Steps / Action Items</h2>
+          <table>
+            <thead><tr><th style="width:22%">Owner</th><th>Action</th><th style="width:20%">Due</th></tr></thead>
+            <tbody>${mom.nextSteps.map(s => `<tr><td><strong>${s.owner}</strong></td><td>${s.item}</td><td>${s.due}</td></tr>`).join('')}</tbody>
+          </table>
+
+          <p class="text-[11px] text-slate-400 mt-6 pt-4 border-t border-slate-200">Auto-generated from Avoma transcript by Presales Intelligence Hub · ${fmtDate('2026-05-10')} · Author: ${a.owner === 'Anuradha Mondal' ? 'Anuradha Mondal' : 'Anuradha Mondal'} · Solutions Consultant, Zycus</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div class="bg-white rounded-2xl ring-card p-5">
+          <h3 class="font-semibold text-slate-900 mb-3 text-sm">Document metadata</h3>
+          <dl class="space-y-2 text-[12px]">
+            <div class="flex justify-between"><dt class="text-slate-500">Status</dt><dd class="text-emerald-700 font-semibold">Ready</dd></div>
+            <div class="flex justify-between"><dt class="text-slate-500">Source</dt><dd class="text-slate-900">Avoma transcript</dd></div>
+            <div class="flex justify-between"><dt class="text-slate-500">Generated</dt><dd class="text-slate-900">${fmtDate(mom.date)}</dd></div>
+            <div class="flex justify-between"><dt class="text-slate-500">Length</dt><dd class="text-slate-900">~1 page</dd></div>
+            <div class="flex justify-between"><dt class="text-slate-500">Author</dt><dd class="text-slate-900">Anuradha Mondal</dd></div>
+          </dl>
+        </div>
+        <div class="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl p-5 ring-1 ring-indigo-100">
+          <div class="flex items-center gap-2 text-[11px] uppercase tracking-wider text-indigo-700 font-semibold mb-2"><i data-lucide="info" class="w-3.5 h-3.5"></i>How this was generated</div>
+          <p class="text-[12px] text-slate-700 leading-relaxed">Anthropic Claude extracted attendees, discussion threads, open questions, and action items from the Avoma transcript and structured them into a 1-page MOM aligned to your standard template.</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============ Solutioning Tab ============ */
+function renderSolutioningTab(a, sol) {
+  const counts = sol.qa.reduce((c, q) => { c[q.status]++; return c; }, { answered: 0, kb: 0, rfp: 0, pending: 0 });
+  return `
+    <div class="grid lg:grid-cols-3 gap-5">
+      <div class="lg:col-span-2 bg-white rounded-2xl doc-shadow p-8 print-page">
+        <div class="flex items-start justify-between mb-6 no-print">
+          <div>
+            <div class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Document</div>
+            <h2 class="text-lg font-bold text-slate-900 mt-1">Solutioning Document</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"><i data-lucide="printer" class="w-3.5 h-3.5"></i>Print</button>
+            <button onclick="downloadDoc('${a.id}','solutioning')" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white"><i data-lucide="download" class="w-3.5 h-3.5"></i>Download .doc</button>
+          </div>
+        </div>
+
+        <div class="doc-prose">
+          <h1>${a.name} — Solutioning Document</h1>
+          <p class="text-[12px] text-slate-500">${sol.callTitle} · ${fmtDate(sol.date)}</p>
+
+          <div class="grid grid-cols-4 gap-2 mt-4 mb-2 no-print">
+            ${stat('Answered live', counts.answered, 'emerald')}
+            ${stat('From Zycus KB', counts.kb, 'indigo')}
+            ${stat('From RFP repo', counts.rfp, 'violet')}
+            ${stat('Pending', counts.pending, 'amber')}
+          </div>
+
+          <h2>Q&A Mapping</h2>
+          ${sol.qa.map((qa, i) => `
+            <div style="margin: 1rem 0; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.7rem; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 0.05em;">Question ${i+1}</span>
+                ${statusBadge(qa.status)}
+              </div>
+              <div style="font-weight: 600; color: #0f172a; margin-bottom: 0.5rem;">${qa.q}</div>
+              <div style="font-size: 0.875rem; color: #334155; line-height: 1.55; padding: 0.6rem 0.75rem; background: #f8fafc; border-radius: 8px; border-left: 3px solid ${{answered:'#10b981',kb:'#6366f1',rfp:'#a855f7',pending:'#f59e0b'}[qa.status]};">${qa.a}</div>
+              <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.5rem;"><strong>Source:</strong> ${qa.source}</div>
+            </div>
+          `).join('')}
+
+          <p class="text-[11px] text-slate-400 mt-6 pt-4 border-t border-slate-200">Auto-generated by Presales Intelligence Hub · Source mix: live answers + Zycus Knowledge Hub + RFP Repository · ${fmtDate('2026-05-10')}</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div class="bg-white rounded-2xl ring-card p-5">
+          <h3 class="font-semibold text-slate-900 mb-3 text-sm">Source breakdown</h3>
+          <div class="space-y-3">
+            ${sourceBar('Answered live', counts.answered, sol.qa.length, 'emerald')}
+            ${sourceBar('Zycus Knowledge Hub', counts.kb, sol.qa.length, 'indigo')}
+            ${sourceBar('RFP Repository', counts.rfp, sol.qa.length, 'violet')}
+            ${sourceBar('Pending follow-up', counts.pending, sol.qa.length, 'amber')}
+          </div>
+        </div>
+        <div class="bg-amber-50 rounded-2xl p-5 ring-1 ring-amber-100">
+          <div class="flex items-center gap-2 text-[11px] uppercase tracking-wider text-amber-800 font-semibold mb-2"><i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>${counts.pending} item${counts.pending===1?'':'s'} pending</div>
+          <p class="text-[12px] text-amber-900 leading-relaxed">${counts.pending ? 'These need a confirmed answer before sending. Reach out to product or deal desk.' : 'All questions have a confirmed answer. Ready to send.'}</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function stat(label, value, color) {
+  const colorMap = { emerald: 'bg-emerald-50 text-emerald-700', indigo: 'bg-indigo-50 text-indigo-700', violet: 'bg-violet-50 text-violet-700', amber: 'bg-amber-50 text-amber-700' }[color];
+  return `<div class="${colorMap} rounded-lg px-3 py-2"><div class="text-lg font-bold">${value}</div><div class="text-[10px] uppercase tracking-wider font-semibold opacity-80">${label}</div></div>`;
+}
+
+function sourceBar(label, n, total, color) {
+  const pct = total ? Math.round(n/total*100) : 0;
+  const colorBg = { emerald: 'bg-emerald-500', indigo: 'bg-indigo-500', violet: 'bg-violet-500', amber: 'bg-amber-500' }[color];
+  return `
+    <div>
+      <div class="flex items-center justify-between mb-1 text-[12px]"><span class="text-slate-600">${label}</span><span class="font-semibold text-slate-900">${n}</span></div>
+      <div class="w-full h-1.5 bg-slate-100 rounded-full"><div class="${colorBg} h-full rounded-full" style="width:${pct}%"></div></div>
+    </div>
+  `;
+}
+
+function statusBadge(status) {
+  const map = {
+    answered: ['Answered live','#10b981','#ecfdf5'],
+    kb: ['Zycus KB','#6366f1','#eef2ff'],
+    rfp: ['RFP Repo','#a855f7','#faf5ff'],
+    pending: ['Pending','#f59e0b','#fffbeb']
+  }[status];
+  return `<span style="font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: ${map[2]}; color: ${map[1]};">${map[0]}</span>`;
+}
+
+/* ============ Value Tab ============ */
+function renderValueTab(a, val) {
+  return `
+    <div class="grid lg:grid-cols-3 gap-5">
+      <div class="lg:col-span-2 bg-white rounded-2xl doc-shadow p-8 print-page">
+        <div class="flex items-start justify-between mb-6 no-print">
+          <div>
+            <div class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Document</div>
+            <h2 class="text-lg font-bold text-slate-900 mt-1">Value Document</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"><i data-lucide="printer" class="w-3.5 h-3.5"></i>Print</button>
+            <button onclick="downloadDoc('${a.id}','value')" class="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white"><i data-lucide="download" class="w-3.5 h-3.5"></i>Download .doc</button>
+          </div>
+        </div>
+
+        <div class="doc-prose">
+          <h1>${a.name} — Value Document</h1>
+          <p class="text-[12px] text-slate-500">${val.callTitle} · ${fmtDate(val.date)}</p>
+
+          <h2>Client Pain Points</h2>
+          <ul>${val.painPoints.map(p => `<li>${p}</li>`).join('')}</ul>
+
+          <h2>Current Process</h2>
+          <ul>${val.currentProcess.map(p => `<li>${p}</li>`).join('')}</ul>
+
+          <h2>Industry Benchmarks (${val.benchmarks.industry})</h2>
+          <table>
+            <thead><tr><th>Metric</th><th>${a.name} today</th><th>Best-in-class</th><th>Delta</th></tr></thead>
+            <tbody>${val.benchmarks.rows.map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td><strong style="color:#10b981">${r[3]}</strong></td></tr>`).join('')}</tbody>
+          </table>
+
+          <h2>Customer Success Stories</h2>
+          ${val.caseStudies.map(c => `
+            <div style="margin: 1rem 0; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; background: linear-gradient(135deg, #f8fafc 0%, white 100%);">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <strong style="font-size: 1rem; color: #0f172a;">${c.name}</strong>
+                <span style="font-size: 0.7rem; padding: 2px 8px; border-radius: 6px; background: #ecfdf5; color: #047857; font-weight: 600;">${c.match}</span>
+              </div>
+              <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">${c.industry} · ${c.region}</div>
+              <div style="font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;"><strong>Before:</strong> ${c.before}</div>
+              <div style="font-size: 0.85rem; color: #334155; margin-bottom: 0.5rem;"><strong>After:</strong> ${c.after}</div>
+              <div style="font-size: 0.85rem; color: #6366f1; font-style: italic; padding: 0.5rem 0.75rem; background: #eef2ff; border-radius: 6px; border-left: 3px solid #6366f1;">${c.quote}</div>
+              <a href="${c.url}" target="_blank" style="font-size: 0.75rem; color: #6366f1; margin-top: 0.5rem; display: inline-block;">View full case study →</a>
+            </div>
+          `).join('')}
+
+          ${val.projectedImpact ? `
+          <h2>Projected Value for ${a.name}</h2>
+          <div style="margin: 0.75rem 0; padding: 1rem 1.25rem; background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); border-radius: 12px; border: 1px solid #d1fae5;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+              <div><div style="font-size: 0.7rem; color: #047857; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Annualized savings</div><div style="font-size: 1.4rem; font-weight: 800; color: #064e3b;">${val.projectedImpact.savings}</div></div>
+              <div><div style="font-size: 0.7rem; color: #047857; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Period</div><div style="font-size: 0.95rem; font-weight: 600; color: #064e3b;">${val.projectedImpact.period}</div></div>
+              <div><div style="font-size: 0.7rem; color: #047857; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Payback</div><div style="font-size: 0.95rem; font-weight: 600; color: #064e3b;">${val.projectedImpact.payback}</div></div>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>Value driver</th><th>Estimated impact</th></tr></thead>
+            <tbody>${val.projectedImpact.breakdown.map(r => `<tr><td>${r[0]}</td><td><strong>${r[1]}</strong></td></tr>`).join('')}</tbody>
+          </table>
+          ` : ''}
+
+          <p class="text-[11px] text-slate-400 mt-6 pt-4 border-t border-slate-200">Auto-generated by Presales Intelligence Hub · Case studies sourced from zycus.com/customers/success-story · ${fmtDate('2026-05-10')}</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div class="bg-white rounded-2xl ring-card p-5">
+          <h3 class="font-semibold text-slate-900 mb-1 text-sm">Case study match</h3>
+          <p class="text-[11px] text-slate-500 mb-3">Filtered from zycus.com/customers/success-story</p>
+          <div class="space-y-2.5">
+            ${val.caseStudies.map(c => `
+              <a href="${c.url}" target="_blank" class="flex items-start gap-3 p-3 rounded-xl border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/30 transition group">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-[11px] shrink-0">${c.name.charAt(0)}</div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-[13px] font-semibold text-slate-900 truncate group-hover:text-indigo-700">${c.name}</div>
+                  <div class="text-[11px] text-slate-500 truncate">${c.industry} · ${c.region}</div>
+                </div>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-600 mt-1"></i>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+        ${val.projectedImpact ? `
+        <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-5 text-white">
+          <div class="text-[11px] uppercase tracking-wider opacity-80 font-semibold mb-1">Projected savings</div>
+          <div class="text-3xl font-bold">${val.projectedImpact.savings}</div>
+          <div class="text-[12px] opacity-90 mt-1">${val.projectedImpact.period}</div>
+          <div class="mt-4 pt-4 border-t border-white/20 text-[12px]"><span class="opacity-80">Payback period:</span> <span class="font-semibold">${val.projectedImpact.payback}</span></div>
+        </div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+/* ==================== VIEW: LIBRARY ==================== */
+
+function viewLibrary() {
+  const all = [];
+  ACCOUNTS.forEach(a => {
+    const calls = CALL_DATA[a.id] || [];
+    calls.forEach(c => {
+      ['MOM','Solutioning','Value'].forEach(type => {
+        const has = type==='MOM'?c.hasMOM:type==='Solutioning'?c.hasSolutioning:c.hasValue;
+        if (has) all.push({ account: a, call: c, type });
+      });
+    });
+  });
+  return `
+    <div class="mb-7">
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Document Library</h1>
+      <p class="text-sm text-slate-500 mt-1.5">${all.length} documents · auto-generated across all accounts</p>
+    </div>
+    <div class="bg-white rounded-2xl ring-card overflow-hidden">
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-100">
+          <th class="px-5 py-3 font-semibold">Document</th><th class="px-5 py-3 font-semibold">Account</th><th class="px-5 py-3 font-semibold">Type</th><th class="px-5 py-3 font-semibold">Generated</th><th class="px-5 py-3"></th>
+        </tr></thead>
+        <tbody>
+          ${all.map(d => `
+            <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
+              <td class="px-5 py-3.5"><div class="font-medium text-slate-900">${d.account.name} — ${d.type}</div><div class="text-[11px] text-slate-500">${d.call.title}</div></td>
+              <td class="px-5 py-3.5"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-md bg-gradient-to-br ${d.account.color} flex items-center justify-center text-white text-[10px] font-bold">${d.account.logo}</div><span class="text-[13px]">${d.account.name}</span></div></td>
+              <td class="px-5 py-3.5"><span class="text-[11px] font-semibold px-2 py-0.5 rounded-md ${d.type==='MOM'?'bg-indigo-50 text-indigo-700':d.type==='Solutioning'?'bg-violet-50 text-violet-700':'bg-emerald-50 text-emerald-700'}">${d.type}</span></td>
+              <td class="px-5 py-3.5 text-slate-600 text-[13px]">${fmtDate(d.call.date)}</td>
+              <td class="px-5 py-3.5 text-right">
+                <button onclick="navigate('account-detail',{accountId:'${d.account.id}',tab:'${d.type==='MOM'?'mom':d.type==='Solutioning'?'solutioning':'value'}'})" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800">Open</button>
+                <button onclick="downloadDoc('${d.account.id}','${d.type==='MOM'?'mom':d.type==='Solutioning'?'solutioning':'value'}')" class="ml-3 text-xs font-semibold text-slate-600 hover:text-slate-900">Download</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+/* ==================== INGEST MODAL ==================== */
+
+function openIngestModal(accountId) {
+  const acc = accountId ? ACCOUNTS.find(a => a.id === accountId) : null;
+  $('modal-root').innerHTML = `
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 fade-in" onclick="closeModal(event)">
+      <div onclick="event.stopPropagation()" class="bg-white rounded-2xl shadow-2xl w-full max-w-xl slide-up overflow-hidden">
+        <div class="p-6 border-b border-slate-100 flex items-start justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-[11px] uppercase tracking-wider text-indigo-600 font-semibold mb-1">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> AI generation
+            </div>
+            <h3 class="text-lg font-bold text-slate-900">Generate documentation from call</h3>
+            <p class="text-[12px] text-slate-500 mt-1">Pulls transcript from Avoma, then generates MOM, Solutioning, and Value docs.</p>
+          </div>
+          <button onclick="closeModal()" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <div class="p-6 space-y-4" id="ingest-form">
+          <div>
+            <label class="text-[12px] font-semibold text-slate-700 block mb-1.5">Account</label>
+            <select id="ing-account" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              ${ACCOUNTS.map(a => `<option value="${a.id}" ${acc?.id===a.id?'selected':''}>${a.name}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label class="text-[12px] font-semibold text-slate-700 block mb-1.5">Avoma call</label>
+            <select id="ing-call" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              <option>2026-05-09 · Pfizer · Architecture Q&A follow-up · 45 min</option>
+              <option>2026-05-08 · Tata Steel · Commercials walkthrough · 30 min</option>
+              <option>2026-05-07 · ExxonMobil · Tail-spend deep-dive · 60 min</option>
+              <option>2026-05-06 · Lufthansa · MRO category demo · 50 min</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[12px] font-semibold text-slate-700 block mb-1.5">Documents to generate</label>
+            <div class="space-y-2">
+              <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-indigo-600">
+                <i data-lucide="clipboard-check" class="w-4 h-4 text-indigo-600"></i>
+                <span class="text-[13px] font-medium text-slate-900">Minutes of Meeting</span>
+                <span class="ml-auto text-[10px] text-slate-500">~2s</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-indigo-600">
+                <i data-lucide="puzzle" class="w-4 h-4 text-violet-600"></i>
+                <span class="text-[13px] font-medium text-slate-900">Solutioning Document</span>
+                <span class="ml-auto text-[10px] text-slate-500">Uses Zycus KB + RFP Repo</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-indigo-600">
+                <i data-lucide="trending-up" class="w-4 h-4 text-emerald-600"></i>
+                <span class="text-[13px] font-medium text-slate-900">Value Document</span>
+                <span class="ml-auto text-[10px] text-slate-500">+ matching case studies</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="p-5 border-t border-slate-100 bg-slate-50/60 flex items-center justify-end gap-2">
+          <button onclick="closeModal()" class="text-sm px-4 py-2 rounded-lg text-slate-700 hover:bg-slate-100">Cancel</button>
+          <button onclick="runIngest()" class="text-sm px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-medium flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Generate documents
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+function runIngest() {
+  const accountId = $('ing-account').value;
+  $('modal-root').innerHTML = `
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 fade-in">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-7 slide-up text-center">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">Generating documentation…</h3>
+        <p class="text-[13px] text-slate-500 mt-1.5 mb-5">Reading Avoma transcript · pulling from Zycus KB + RFP repo · matching case studies</p>
+        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden relative">
+          <div class="absolute inset-y-0 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full indeterminate"></div>
+        </div>
+        <ul class="mt-5 space-y-2 text-left text-[12px] text-slate-600" id="ingest-steps">
+          <li class="flex items-center gap-2"><i data-lucide="loader" class="w-3.5 h-3.5 text-indigo-500 animate-spin"></i> Avoma · pulling 45-min transcript</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  lucide.createIcons();
+
+  const steps = [
+    'Avoma · transcript ingested (8,400 words)',
+    'Identifying attendees, Q&A, action items…',
+    'Drafting Minutes of Meeting',
+    'Mapping unanswered questions to Zycus KB 360',
+    'Mapping technical questions to RFP Repository',
+    'Drafting Solutioning Document',
+    'Filtering case studies on zycus.com (industry + region match)',
+    'Drafting Value Document with industry benchmarks',
+    'All 3 documents ready'
+  ];
+  let i = 0;
+  const stepEl = $('ingest-steps');
+  const tick = () => {
+    if (i >= steps.length) {
+      setTimeout(() => {
+        closeModal();
+        navigate('account-detail', { accountId, tab: 'overview' });
+        toast(`Documents ready for ${ACCOUNTS.find(a=>a.id===accountId).name}`, 'success');
+      }, 300);
+      return;
+    }
+    const isLast = i === steps.length - 1;
+    stepEl.innerHTML = steps.slice(0, i+1).map((s, idx) => `<li class="flex items-center gap-2 ${idx === i && !isLast ? '' : 'text-emerald-700'}"><i data-lucide="${idx === i && !isLast ? 'loader' : 'check-circle'}" class="w-3.5 h-3.5 ${idx === i && !isLast ? 'text-indigo-500 animate-spin' : 'text-emerald-500'}"></i> ${s}</li>`).join('');
+    lucide.createIcons();
+    i++;
+    setTimeout(tick, 380 + Math.random() * 350);
+  };
+  setTimeout(tick, 250);
+}
+
+function closeModal(e) {
+  if (e && e.target.id !== '' && e.target !== e.currentTarget) return;
+  $('modal-root').innerHTML = '';
+}
+
+/* ==================== TOAST ==================== */
+function toast(msg, kind='success') {
+  const el = document.createElement('div');
+  el.className = 'fixed bottom-6 right-6 bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-lg slide-up flex items-center gap-3 z-50';
+  el.innerHTML = `<i data-lucide="${kind==='success'?'check-circle':'info'}" class="w-4 h-4 ${kind==='success'?'text-emerald-400':'text-indigo-400'}"></i><span>${msg}</span>`;
+  document.body.appendChild(el);
+  lucide.createIcons();
+  setTimeout(() => el.remove(), 4000);
+}
+
+/* ==================== DOCUMENT DOWNLOAD ==================== */
+
+function downloadDoc(accountId, type) {
+  const a = ACCOUNTS.find(x => x.id === accountId);
+  const docs = ensureDocs(accountId);
+  const doc = docs[type];
+  if (!doc) { toast('Document not found','info'); return; }
+  let body = '';
+  if (type === 'mom') body = momHTML(a, doc);
+  if (type === 'solutioning') body = solHTML(a, doc);
+  if (type === 'value') body = valHTML(a, doc);
+
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+  <head><meta charset='utf-8'>
+  <title>${a.name} — ${type}</title>
+  <style>
+    body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #111827; max-width: 720px; margin: 30px auto; }
+    h1 { font-size: 20pt; color: #0f172a; margin-bottom: 4px; }
+    h2 { font-size: 13pt; color: #0f172a; margin-top: 22px; padding-bottom: 4px; border-bottom: 2px solid #6366f1; }
+    h3 { font-size: 11.5pt; color: #1e293b; }
+    table { border-collapse: collapse; width: 100%; margin: 8px 0 12px 0; }
+    th { background: #0f172a; color: #fff; text-align: left; padding: 6px 10px; font-weight: 600; }
+    td { padding: 6px 10px; border: 1px solid #e2e8f0; vertical-align: top; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    ul, ol { padding-left: 22px; }
+    li { margin-bottom: 4px; }
+    .meta { font-size: 9pt; color: #64748b; }
+    .req-id { color: #00897B; font-weight: 700; }
+    .quote { font-style: italic; color: #4338ca; padding: 8px 12px; background: #eef2ff; border-left: 3px solid #6366f1; border-radius: 4px; margin: 6px 0; }
+    .case-block { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin: 10px 0; }
+    .qa-block { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin: 10px 0; }
+    .badge { display: inline-block; font-size: 8pt; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+    .impact-box { background: #ecfdf5; border: 1px solid #d1fae5; border-radius: 8px; padding: 12px 16px; margin: 8px 0; }
+    .author-line { font-size: 9pt; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 22px; }
+  </style></head>
+  <body>${body}</body></html>`;
+
+  const blob = new Blob(['﻿', html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  const filename = `${a.name.replace(/[^a-z0-9]/gi,'_')}_${type === 'mom' ? 'MOM' : type === 'solutioning' ? 'Solutioning' : 'Value'}_${doc.date}.doc`;
+  link.download = filename;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast(`Downloaded ${filename}`,'success');
+}
+
+function momHTML(a, mom) {
+  return `
+    <h1>${a.name} — Minutes of Meeting</h1>
+    <div class="meta">${mom.callTitle} · ${fmtDate(mom.date)} · ${mom.duration}</div>
+    <h2>Attendees</h2>
+    <table><tr><th>Organization</th><th>Participants</th></tr>
+      ${Object.entries(mom.attendees).map(([o,p]) => `<tr><td><b>${o}</b></td><td>${p.join('<br>')}</td></tr>`).join('')}
+    </table>
+    <h2>Key Discussion Points</h2>
+    <ol>${mom.keyDiscussion.map(p => `<li>${p}</li>`).join('')}</ol>
+    <h2>Open Points</h2>
+    <ul>${mom.openPoints.map(p => `<li>${p}</li>`).join('')}</ul>
+    <h2>Next Steps / Action Items</h2>
+    <table><tr><th>Owner</th><th>Action</th><th>Due</th></tr>
+      ${mom.nextSteps.map(s => `<tr><td><b>${s.owner}</b></td><td>${s.item}</td><td>${s.due}</td></tr>`).join('')}
+    </table>
+    <p class="author-line">Auto-generated by Presales Intelligence Hub · ${fmtDate('2026-05-10')} · Anuradha Mondal · Solutions Consultant, Zycus</p>
+  `;
+}
+
+function solHTML(a, sol) {
+  return `
+    <h1>${a.name} — Solutioning Document</h1>
+    <div class="meta">${sol.callTitle} · ${fmtDate(sol.date)}</div>
+    <h2>Q&A Mapping</h2>
+    ${sol.qa.map((qa,i)=>{
+      const map = { answered:['Answered live','#10b981','#ecfdf5'], kb:['Zycus KB','#6366f1','#eef2ff'], rfp:['RFP Repo','#a855f7','#faf5ff'], pending:['Pending','#f59e0b','#fffbeb'] }[qa.status];
+      return `<div class="qa-block">
+        <div><span class="req-id">Q${i+1}.</span> <span class="badge" style="background:${map[2]};color:${map[1]};">${map[0]}</span></div>
+        <p><b>${qa.q}</b></p>
+        <p>${qa.a}</p>
+        <div class="meta"><b>Source:</b> ${qa.source}</div>
+      </div>`;
+    }).join('')}
+    <p class="author-line">Auto-generated by Presales Intelligence Hub · sources: live answers + Zycus Knowledge Hub + RFP Repository · ${fmtDate('2026-05-10')}</p>
+  `;
+}
+
+function valHTML(a, val) {
+  return `
+    <h1>${a.name} — Value Document</h1>
+    <div class="meta">${val.callTitle} · ${fmtDate(val.date)}</div>
+    <h2>Client Pain Points</h2>
+    <ul>${val.painPoints.map(p=>`<li>${p}</li>`).join('')}</ul>
+    <h2>Current Process</h2>
+    <ul>${val.currentProcess.map(p=>`<li>${p}</li>`).join('')}</ul>
+    <h2>Industry Benchmarks (${val.benchmarks.industry})</h2>
+    <table><tr><th>Metric</th><th>${a.name} today</th><th>Best-in-class</th><th>Delta</th></tr>
+      ${val.benchmarks.rows.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td><b style="color:#10b981">${r[3]}</b></td></tr>`).join('')}
+    </table>
+    <h2>Customer Success Stories</h2>
+    ${val.caseStudies.map(c => `<div class="case-block">
+      <div><b style="font-size: 12pt;">${c.name}</b> — <span class="meta">${c.industry} · ${c.region}</span></div>
+      <div class="meta">${c.match}</div>
+      <p><b>Before:</b> ${c.before}</p>
+      <p><b>After:</b> ${c.after}</p>
+      <div class="quote">${c.quote}</div>
+      <div class="meta">Full case study: ${c.url}</div>
+    </div>`).join('')}
+    ${val.projectedImpact ? `
+      <h2>Projected Value for ${a.name}</h2>
+      <div class="impact-box">
+        <p><b>Annualized savings:</b> ${val.projectedImpact.savings}</p>
+        <p><b>Period:</b> ${val.projectedImpact.period}</p>
+        <p><b>Payback:</b> ${val.projectedImpact.payback}</p>
+      </div>
+      <table><tr><th>Value driver</th><th>Estimated impact</th></tr>
+        ${val.projectedImpact.breakdown.map(r => `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')}
+      </table>
+    ` : ''}
+    <p class="author-line">Auto-generated by Presales Intelligence Hub · case studies sourced from zycus.com/customers/success-story · ${fmtDate('2026-05-10')}</p>
+  `;
+}
+
+function exportSummary() {
+  const accs = getFiltered();
+  const rows = [['Account','Industry','Region','Stage','Deal Size','Calls','Last Call','Health']];
+  accs.forEach(a => rows.push([a.name, a.industry, a.region, a.stage, a.dealSize, a.callsCount, a.lastCall, a.healthScore]));
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `presales_pipeline_${new Date().toISOString().slice(0,10)}.csv`;
+  link.click();
+  toast('Pipeline exported as CSV','success');
+}
+
+/* ==================== VIEW: OPPORTUNITY TRACKER ==================== */
+
+function getFilteredOpps() {
+  return OPPORTUNITIES.filter(o => {
+    if (state.oppFilters.search) {
+      const s = state.oppFilters.search.toLowerCase();
+      const a = ACCOUNTS.find(x => x.id === o.accountId);
+      const haystack = `${a.name} ${o.module} ${o.sfId} ${o.id} ${o.owner} ${o.presales}`.toLowerCase();
+      if (!haystack.includes(s)) return false;
+    }
+    if (state.oppFilters.stage !== 'all' && o.stage !== state.oppFilters.stage) return false;
+    if (state.oppFilters.type !== 'all' && o.type !== state.oppFilters.type) return false;
+    if (state.oppFilters.owner !== 'all' && o.owner !== state.oppFilters.owner) return false;
+    return true;
+  });
+}
+
+function viewOpportunities() {
+  const opps = getFilteredOpps();
+  const totalPipeline = opps.reduce((s,o) => s + o.amount + o.servicesAmount, 0);
+  const weighted = opps.reduce((s,o) => s + (o.amount + o.servicesAmount) * stageProbability[o.stage], 0);
+  const won = opps.filter(o => o.stage === 'Contract Signed').reduce((s,o) => s + o.amount + o.servicesAmount, 0);
+  const open = opps.filter(o => o.stage !== 'Contract Signed').length;
+
+  return `
+    <div class="mb-7">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-slate-500 font-semibold mb-1.5 flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            Live from Salesforce · synced 2 min ago
+          </div>
+          <h1 class="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">Opportunity Tracker</h1>
+          <p class="text-sm text-slate-500 mt-1.5">${OPPORTUNITIES.length} opportunities across ${new Set(OPPORTUNITIES.map(o=>o.accountId)).size} accounts · all sourced from Salesforce based on modules pitched</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="syncSF()" class="flex items-center gap-2 bg-white text-slate-700 text-sm font-medium px-3.5 py-2 rounded-lg border border-slate-200 hover:border-slate-300 transition">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Sync now
+          </button>
+          <button onclick="exportOpps()" class="flex items-center gap-2 bg-slate-900 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm hover:bg-slate-800 transition">
+            <i data-lucide="download" class="w-4 h-4"></i> Export CSV
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      ${kpi('Total pipeline', fmtCurrency(totalPipeline), 'wallet', 'indigo', `${opps.length} opportunities`)}
+      ${kpi('Weighted pipeline', fmtCurrency(weighted), 'gauge', 'violet', 'Stage-probability adjusted')}
+      ${kpi('Closed won (YTD)', fmtCurrency(won), 'trophy', 'emerald', 'Contract Signed')}
+      ${kpi('Open opportunities', open, 'briefcase', 'rose', `Avg close in ${avgDaysToClose(opps)} days`)}
+    </div>
+
+    <!-- Pipeline by stage -->
+    <div class="bg-white rounded-2xl ring-card p-5 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-semibold text-slate-900 text-sm">Pipeline by stage</h3>
+        <div class="text-[11px] text-slate-500">Bar shows stage probability</div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
+        ${STAGES.map(s => {
+          const stageOpps = opps.filter(o => o.stage === s);
+          const stageVal = stageOpps.reduce((sum,o) => sum + o.amount + o.servicesAmount, 0);
+          return `
+            <div class="bg-slate-50 rounded-xl p-3 lift cursor-pointer" onclick="state.oppFilters.stage='${s}';render();">
+              <div class="text-[10px] uppercase tracking-wider font-semibold text-slate-500 truncate" title="${s}">${s}</div>
+              <div class="text-base font-bold text-slate-900 mt-1">${stageVal ? fmtCurrency(stageVal) : '—'}</div>
+              <div class="text-[11px] text-slate-500">${stageOpps.length} opp${stageOpps.length===1?'':'s'}</div>
+              <div class="mt-2 h-1 bg-slate-200 rounded-full overflow-hidden"><div class="h-full rounded-full" style="width: ${stageProbability[s]*100}%; background: ${stageBgHex(s)}"></div></div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- Filters + table -->
+    <div class="bg-white rounded-2xl ring-card overflow-hidden">
+      <div class="p-5 border-b border-slate-100 flex flex-wrap items-center gap-3">
+        <div class="relative flex-1 min-w-[220px]">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input value="${state.oppFilters.search}" oninput="state.oppFilters.search = this.value; renderOppTable();" placeholder="Filter by account, module, opportunity ID, owner…" class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 outline-none rounded-lg pl-9 pr-3 py-2 text-sm" />
+        </div>
+        ${oppSelect('stage', ['all', ...STAGES], 'All stages')}
+        ${oppSelect('type', ['all','New Business','Cross-sell','Upsell','Pilot'], 'All types')}
+        ${oppSelect('owner', ['all', ...Array.from(new Set(OPPORTUNITIES.map(o => o.owner)))], 'All owners')}
+        <button onclick="resetOppFilters()" class="text-xs text-slate-500 hover:text-slate-700 px-2 py-1 rounded">
+          <i data-lucide="x" class="w-3 h-3 inline -mt-0.5"></i> Reset
+        </button>
+      </div>
+      <div id="opp-table" class="overflow-x-auto scrollbar-thin">${renderOppTableContent()}</div>
+    </div>
+  `;
+}
+
+function avgDaysToClose(opps) {
+  const open = opps.filter(o => o.stage !== 'Contract Signed');
+  if (!open.length) return 0;
+  const today = new Date('2026-05-10');
+  const days = open.reduce((s,o) => s + Math.max(0, Math.round((new Date(o.closeDate) - today) / (1000*60*60*24))), 0);
+  return Math.round(days / open.length);
+}
+
+function oppSelect(key, options, defaultLabel) {
+  return `
+    <select onchange="state.oppFilters.${key} = this.value; renderOppTable();" class="bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-300 cursor-pointer">
+      ${options.map(o => `<option value="${o}" ${state.oppFilters[key]===o?'selected':''}>${o==='all'?defaultLabel:o}</option>`).join('')}
+    </select>
+  `;
+}
+
+function resetOppFilters() {
+  state.oppFilters = { search: '', stage: 'all', type: 'all', owner: 'all' };
+  render();
+}
+
+function renderOppTable() {
+  const el = $('opp-table');
+  if (el) { el.innerHTML = renderOppTableContent(); lucide.createIcons(); }
+}
+
+function renderOppTableContent() {
+  const opps = getFilteredOpps();
+  if (opps.length === 0) {
+    return `<div class="p-12 text-center"><div class="text-slate-300 mb-2"><i data-lucide="inbox" class="w-10 h-10 inline"></i></div><div class="text-sm text-slate-600 font-medium">No opportunities match your filters</div><button onclick="resetOppFilters()" class="text-xs text-indigo-600 mt-2 hover:underline">Clear filters</button></div>`;
+  }
+  return `
+  <table class="w-full text-sm min-w-[1200px]">
+    <thead>
+      <tr class="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-100 bg-slate-50/40">
+        <th class="px-4 py-3 font-semibold">Account / Module</th>
+        <th class="px-4 py-3 font-semibold">Opportunity ID</th>
+        <th class="px-4 py-3 font-semibold">Stage</th>
+        <th class="px-4 py-3 font-semibold">Type</th>
+        <th class="px-4 py-3 font-semibold text-right">Amount</th>
+        <th class="px-4 py-3 font-semibold text-right">Services</th>
+        <th class="px-4 py-3 font-semibold text-right">Total</th>
+        <th class="px-4 py-3 font-semibold">Owner / Presales</th>
+        <th class="px-4 py-3 font-semibold">Last connect</th>
+        <th class="px-4 py-3 font-semibold">Close date</th>
+        <th class="px-4 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      ${opps.map(o => {
+        const a = ACCOUNTS.find(x => x.id === o.accountId);
+        const url = sfUrl(o.sfId);
+        return `
+        <tr class="border-b border-slate-50 hover:bg-indigo-50/20 transition group">
+          <td class="px-4 py-3">
+            <button type="button" onclick="navigate('account-intel',{accountId:'${o.accountId}'})" class="flex items-center gap-3 hover:opacity-90 text-left w-full" title="View account intelligence — stakeholders & news">
+              <div class="w-9 h-9 rounded-lg bg-gradient-to-br ${a.color} flex items-center justify-center text-white text-[11px] font-bold shrink-0 shadow-sm">${a.logo}</div>
+              <div class="min-w-0">
+                <div class="font-semibold text-slate-900 truncate flex items-center gap-1.5 group-hover:text-indigo-700">${a.name}<i data-lucide="newspaper" class="w-3 h-3 text-slate-300 group-hover:text-indigo-500"></i></div>
+                <div class="text-[11px] text-slate-500 truncate">${o.module}</div>
+              </div>
+            </button>
+          </td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-1.5">
+              <a href="${url}" target="_blank" rel="noopener" class="font-mono text-[12px] font-semibold text-indigo-600 hover:text-indigo-800 hover:underline" title="Open in Salesforce">${o.sfId}</a>
+              <button onclick="event.stopPropagation();editOppId('${o.id}')" class="p-1 rounded hover:bg-amber-100 text-slate-400 hover:text-amber-700 transition" title="Wrong opportunity ID? Click to update"><i data-lucide="pencil" class="w-3 h-3"></i></button>
+            </div>
+            <div class="text-[10px] text-slate-400 mt-0.5 font-mono">Ref: ${o.id}</div>
+          </td>
+          <td class="px-4 py-3"><span class="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-md ring-1 ${stageColor(o.stage)} whitespace-nowrap">${o.stage}</span></td>
+          <td class="px-4 py-3"><span class="text-[12px] font-medium ${typeColor(o.type)}">${o.type}</span></td>
+          <td class="px-4 py-3 text-right font-semibold text-slate-900">${fmtCurrency(o.amount)}</td>
+          <td class="px-4 py-3 text-right text-slate-700">${fmtCurrency(o.servicesAmount)}</td>
+          <td class="px-4 py-3 text-right font-bold text-slate-900">${fmtCurrency(o.amount + o.servicesAmount)}</td>
+          <td class="px-4 py-3">
+            <div class="text-[12px] text-slate-700 font-medium">${o.owner}</div>
+            <div class="text-[10px] text-slate-400">PS: ${o.presales}</div>
+          </td>
+          <td class="px-4 py-3 text-[12px] text-slate-600 whitespace-nowrap">${fmtDate(o.lastConnect)}</td>
+          <td class="px-4 py-3 text-[12px] text-slate-600 whitespace-nowrap">${fmtDate(o.closeDate)}</td>
+          <td class="px-4 py-3 text-right">
+            <a href="${url}" target="_blank" rel="noopener" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 justify-end whitespace-nowrap">
+              Open in SF <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+          </td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table>
+  `;
+}
+
+function typeColor(t) {
+  return ({ 'New Business': 'text-indigo-700', 'Cross-sell': 'text-violet-700', 'Upsell': 'text-emerald-700', 'Pilot': 'text-amber-700' }[t] || 'text-slate-700');
+}
+
+function editOppId(oppId) {
+  const o = OPPORTUNITIES.find(x => x.id === oppId);
+  if (!o) return;
+  const a = ACCOUNTS.find(x => x.id === o.accountId);
+  $('modal-root').innerHTML = `
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 fade-in" onclick="closeModal(event)">
+      <div onclick="event.stopPropagation()" class="bg-white rounded-2xl shadow-2xl w-full max-w-md slide-up overflow-hidden">
+        <div class="p-6 border-b border-slate-100">
+          <div class="flex items-center gap-2 text-[11px] uppercase tracking-wider text-amber-700 font-semibold mb-1">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Wrong opportunity ID?
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Update Salesforce Opportunity ID</h3>
+          <p class="text-[12px] text-slate-500 mt-1">${a.name} — ${o.module}</p>
+        </div>
+        <div class="p-6 space-y-4">
+          <div class="bg-slate-50 rounded-lg p-3 text-[12px] flex items-center justify-between">
+            <div>
+              <div class="text-slate-500 mb-0.5">Currently linked to</div>
+              <div class="font-mono text-slate-900 font-semibold">${o.sfId}</div>
+            </div>
+            <a href="${sfUrl(o.sfId)}" target="_blank" rel="noopener" class="text-[11px] text-indigo-600 hover:underline whitespace-nowrap">Verify in SF →</a>
+          </div>
+          <div>
+            <label class="text-[12px] font-semibold text-slate-700 block mb-1.5">Correct Opportunity ID</label>
+            <input id="new-sf-id" type="text" placeholder="e.g. 0068X00000ABcd1234" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-mono focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 outline-none" />
+            <p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">We'll pull amount, services, type, owner, presales, close date, and last activity from this exact record. Other opportunities are not affected.</p>
+          </div>
+        </div>
+        <div class="p-5 border-t border-slate-100 bg-slate-50/60 flex items-center justify-end gap-2">
+          <button onclick="closeModal()" class="text-sm px-4 py-2 rounded-lg text-slate-700 hover:bg-slate-100">Cancel</button>
+          <button onclick="pullFromSF('${oppId}')" class="text-sm px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-medium flex items-center gap-2">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Pull from Salesforce
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  lucide.createIcons();
+  setTimeout(() => { const el = $('new-sf-id'); if (el) el.focus(); }, 80);
+}
+
+function pullFromSF(oppId) {
+  const newId = ($('new-sf-id')?.value || '').trim();
+  if (!newId) { toast('Please enter a Salesforce Opportunity ID', 'info'); return; }
+
+  $('modal-root').innerHTML = `
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 fade-in">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-7 slide-up text-center">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <i data-lucide="refresh-cw" class="w-6 h-6 text-white animate-spin"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">Pulling from Salesforce…</h3>
+        <p class="text-[13px] text-slate-500 mt-1.5">Fetching fields from <span class="font-mono">${newId}</span></p>
+        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden relative mt-5">
+          <div class="absolute inset-y-0 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full indeterminate"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  lucide.createIcons();
+
+  setTimeout(() => {
+    const o = OPPORTUNITIES.find(x => x.id === oppId);
+    if (o) o.sfId = newId;
+    closeModal();
+    render();
+    toast(`Synced from ${newId}`, 'success');
+  }, 1600);
+}
+
+function syncSF() {
+  toast('Syncing all opportunities from Salesforce…', 'info');
+  setTimeout(() => { render(); toast(`Synced ${OPPORTUNITIES.length} opportunities · 0 conflicts`, 'success'); }, 1400);
+}
+
+function exportOpps() {
+  const rows = [['Account','Module','Opportunity ID (SF)','Internal Ref','Stage','Type','Amount','Services','Total','Owner','Presales','Last Connect','Close Date','SF URL']];
+  OPPORTUNITIES.forEach(o => {
+    const a = ACCOUNTS.find(x => x.id === o.accountId);
+    rows.push([a.name, o.module, o.sfId, o.id, o.stage, o.type, o.amount, o.servicesAmount, o.amount + o.servicesAmount, o.owner, o.presales, o.lastConnect, o.closeDate, sfUrl(o.sfId)]);
+  });
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `opportunity_pipeline_${new Date().toISOString().slice(0,10)}.csv`;
+  link.click();
+  toast('Pipeline exported as CSV','success');
+}
+
+/* ==================== VIEW: ACCOUNT INTELLIGENCE ==================== */
+
+function intelFor(accountId) {
+  if (ACCOUNT_INTEL[accountId]) return ACCOUNT_INTEL[accountId];
+  const a = ACCOUNTS.find(x => x.id === accountId);
+  return {
+    ticker: '—', hq: a?.region || '—', employees: '—', revenue: '—', updated: '2026-05-09',
+    stakeholders: [],
+    news: []
+  };
+}
+
+function viewAccountIntel() {
+  const a = ACCOUNTS.find(x => x.id === state.selectedAccount);
+  if (!a) return '<div class="text-slate-500">Account not found.</div>';
+  const intel = intelFor(a.id);
+  const accOpps = OPPORTUNITIES.filter(o => o.accountId === a.id);
+  const accPipeline = accOpps.reduce((s,o) => s + o.amount + o.servicesAmount, 0);
+  const filter = state.intelCategoryFilter || 'all';
+  const news = (filter === 'all' ? intel.news : intel.news.filter(n => n.category === filter))
+    .slice().sort((x,y) => new Date(y.date) - new Date(x.date));
+  const today = new Date('2026-05-10');
+  const isFresh = (d) => (today - new Date(d)) / (1000*60*60*24) <= 7;
+  const categories = ['all', 'M&A', 'Funding', 'AI / Digital', 'Leadership', 'Strategic'];
+
+  return `
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-[13px] text-slate-500 mb-5">
+      <a onclick="navigate('opportunity')" class="hover:text-slate-900 cursor-pointer">Opportunity Tracker</a>
+      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+      <span class="text-slate-900 font-medium">${a.name}</span>
+      <span class="ml-2 inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">
+        <i data-lucide="newspaper" class="w-3 h-3"></i> Account Intelligence
+      </span>
+    </div>
+
+    <!-- Hero -->
+    <div class="rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 text-white relative">
+      <div class="absolute inset-0 dot-grid opacity-20"></div>
+      <div class="relative p-7 lg:p-8 flex flex-wrap items-start justify-between gap-6">
+        <div class="flex items-start gap-4 flex-1 min-w-0">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br ${a.color} flex items-center justify-center text-white text-xl font-bold shadow-xl shrink-0 ring-4 ring-white/10">${a.logo}</div>
+          <div class="min-w-0">
+            <h1 class="text-2xl font-bold tracking-tight">${a.name}</h1>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-[13px] text-slate-300">
+              <span class="flex items-center gap-1"><i data-lucide="briefcase" class="w-3.5 h-3.5"></i>${a.industry}</span>
+              <span class="flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i>${intel.hq}</span>
+              <span class="flex items-center gap-1 font-mono text-[12px]"><i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>${intel.ticker}</span>
+              <span class="flex items-center gap-1"><i data-lucide="users" class="w-3.5 h-3.5"></i>${intel.employees}</span>
+              <span class="flex items-center gap-1"><i data-lucide="banknote" class="w-3.5 h-3.5"></i>${intel.revenue}</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mt-3.5">
+              <span class="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-md ring-1 ring-white/20 bg-white/10 text-white">${a.stage}</span>
+              <span class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md ring-1 ring-white/20 bg-white/10 text-white">${accOpps.length} opportunit${accOpps.length===1?'y':'ies'}</span>
+              <span class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md ring-1 ring-white/20 bg-white/10 text-white">${fmtCurrency(accPipeline)} pipeline</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-3">
+          <div class="text-right">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold flex items-center gap-1.5 justify-end">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Intel last synced
+            </div>
+            <div class="text-[12px] text-slate-200 font-medium">${fmtDate(intel.updated)}</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="refreshIntel('${a.id}')" class="text-[12px] flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/10">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh feeds
+            </button>
+            ${accOpps.length ? `<a href="${sfUrl(accOpps[0].sfId)}" target="_blank" rel="noopener" class="text-[12px] flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white">Open in Salesforce <i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Public-source disclosure strip -->
+    <div class="bg-amber-50/60 border border-amber-100 rounded-xl px-4 py-2.5 mb-6 flex items-start gap-2.5 text-[12px] text-amber-900">
+      <i data-lucide="info" class="w-4 h-4 mt-0.5 shrink-0 text-amber-700"></i>
+      <div>
+        <span class="font-semibold">Public-source intelligence.</span> Stakeholder profiles aggregated from company leadership pages and LinkedIn. News pulled from Reuters, Bloomberg, FT, WSJ, and verified industry publications. Click any source to open the original article.
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-5">
+      <!-- Stakeholders -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl ring-card overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold text-slate-900">Procurement decision-makers</h3>
+              <p class="text-[11px] text-slate-500 mt-0.5">${intel.stakeholders.length} stakeholders mapped</p>
+            </div>
+            <i data-lucide="users" class="w-4 h-4 text-slate-400"></i>
+          </div>
+          <ul class="divide-y divide-slate-100">
+            ${intel.stakeholders.map(s => {
+              const initials = s.name.split(' ').map(n => n[0]).slice(0,2).join('');
+              return `
+                <li class="p-4 hover:bg-slate-50/60 transition">
+                  <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-[12px] font-bold shrink-0 shadow-sm">${initials}</div>
+                    <div class="min-w-0 flex-1">
+                      <div class="font-semibold text-slate-900 text-[13.5px]">${s.name}</div>
+                      <div class="text-[12px] text-indigo-700 font-medium mt-0.5">${s.title}</div>
+                      <p class="text-[12px] text-slate-600 mt-2 leading-relaxed">${s.focus}</p>
+                      <a href="${s.source.url}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 mt-2.5 text-[11px] font-semibold text-slate-700 hover:text-indigo-700">
+                        <i data-lucide="link" class="w-3 h-3"></i> ${s.source.label}
+                        <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              `;
+            }).join('') || `<li class="p-6 text-center text-[13px] text-slate-500">Stakeholder profiles still being indexed for this account.</li>`}
+          </ul>
+        </div>
+      </div>
+
+      <!-- News feed -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl ring-card overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <h3 class="font-semibold text-slate-900">Recent intelligence</h3>
+              <p class="text-[11px] text-slate-500 mt-0.5">Last 90 days · sourced from public-domain news + company press</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              ${categories.map(c => `
+                <button onclick="state.intelCategoryFilter='${c}';render();" class="text-[11px] font-medium px-2.5 py-1 rounded-md transition ${filter===c ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${c==='all'?'All':c}</button>
+              `).join('')}
+            </div>
+          </div>
+          ${news.length === 0 ? `<div class="p-12 text-center text-[13px] text-slate-500"><i data-lucide="search-x" class="w-8 h-8 inline text-slate-300 mb-2"></i><div>No items in this category.</div></div>` : `
+          <ul class="divide-y divide-slate-100">
+            ${news.map(n => {
+              const cat = newsCategoryColor(n.category);
+              return `
+                <li class="p-5 hover:bg-slate-50/40 transition relative">
+                  <div class="absolute left-0 top-5 bottom-5 w-1 rounded-r" style="background:${cat.dot}"></div>
+                  <div class="pl-3">
+                    <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-md ring-1 ${cat.ring}"><i data-lucide="${cat.icon}" class="w-2.5 h-2.5"></i>${n.category}</span>
+                      <span class="text-[11px] text-slate-500">${fmtDate(n.date)}</span>
+                      <span class="text-[11px] text-slate-300">·</span>
+                      <span class="text-[11px] text-slate-600 font-medium">${n.source}</span>
+                      ${isFresh(n.date) ? `<span class="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-700">New</span>` : ''}
+                    </div>
+                    <a href="${n.url}" target="_blank" rel="noopener" class="block">
+                      <h4 class="font-semibold text-slate-900 text-[14px] leading-snug hover:text-indigo-700 transition">${n.headline}</h4>
+                    </a>
+                    <p class="text-[12.5px] text-slate-600 mt-1.5 leading-relaxed">${n.snippet}</p>
+                    <a href="${n.url}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 mt-2.5 text-[11.5px] font-semibold text-indigo-600 hover:text-indigo-800">
+                      Read on ${n.source} <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                  </div>
+                </li>
+              `;
+            }).join('')}
+          </ul>
+          `}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function refreshIntel(accountId) {
+  toast(`Refreshing public-source feeds for ${ACCOUNTS.find(a=>a.id===accountId).name}…`, 'info');
+  setTimeout(() => {
+    if (ACCOUNT_INTEL[accountId]) ACCOUNT_INTEL[accountId].updated = '2026-05-10';
+    render();
+    toast('Intel refreshed · 0 new items since last sync', 'success');
+  }, 1300);
+}
+
+/* ==================== RENDER ==================== */
+
+function render() {
+  const root = $('view-root');
+  if (state.view === 'docagent' || state.view === 'dashboard' || state.view === 'accounts') root.innerHTML = viewDashboard();
+  else if (state.view === 'account-detail') root.innerHTML = viewAccountDetail();
+  else if (state.view === 'opportunity') root.innerHTML = viewOpportunities();
+  else if (state.view === 'account-intel') root.innerHTML = viewAccountIntel();
+
+  document.querySelectorAll('[data-nav]').forEach(b => b.classList.remove('nav-active'));
+  let navKey;
+  if (state.view === 'opportunity' || state.view === 'account-intel') navKey = 'opportunity';
+  else if (state.view === 'account-detail' || state.view === 'dashboard' || state.view === 'accounts') navKey = 'docagent';
+  else navKey = state.view;
+  const navBtn = document.querySelector(`[data-nav="${navKey}"]`);
+  if (navBtn) navBtn.classList.add('nav-active');
+
+  lucide.createIcons();
+}
+
+/* ==================== INIT ==================== */
+
+window.addEventListener('DOMContentLoaded', () => {
+  render();
+  // wire global search — applies to whichever view is active
+  const gs = $('globalSearch');
+  if (gs) gs.addEventListener('input', e => {
+    const v = e.target.value;
+    if (state.view === 'opportunity') {
+      state.oppFilters.search = v;
+      renderOppTable();
+    } else {
+      state.filters.search = v;
+      if (state.view === 'docagent' || state.view === 'dashboard' || state.view === 'accounts') renderAccountsTable();
+    }
+  });
+});
+</script>
+</body>
+</html>
